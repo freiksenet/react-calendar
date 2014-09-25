@@ -1,0 +1,28 @@
+{
+  "name": "react-calendar",
+  "version": "0.1.0",
+  "author": "Mikhail <freiksenet@gmail.com> Novikov",
+  "description": "Calendar component for ReactJS",
+  "keywords": [
+    "react",
+    "react-component",
+    "calendar",
+    "browser"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freiksenet/react-calendar.git"
+  },
+  "dependencies": {
+    "moment": "^2.8.3"
+  },
+  "devDependencies": {
+    "webpack": "^1.4.3"
+  },
+  "main": "./react-calendar.js",
+  "scripts": {
+    "bundle": "webpack --config webpack.config.js",
+    "bundle-min": "webpack --config webpack.config.min.js"
+  }
+}
