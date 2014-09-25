@@ -18,11 +18,14 @@
     "moment": "^2.8.3"
   },
   "devDependencies": {
-    "webpack": "^1.4.3"
+    "webpack": "^1.4.3",
+    "webpack-dev-server": "^1.6.5"
   },
-  "main": "./react-calendar.js",
+  "main": "./dist/react-calendar.js",
   "scripts": {
-    "bundle": "webpack --config webpack.config.js",
-    "bundle-min": "webpack --config webpack.config.min.js"
+    "prepublish": "webpack",
+    "umd": "webpack --config webpack.config.umd.js",
+    "umd-min": "webpack --config webpack.config.min.js",
+    "server": "webpack-dev-server --entry ./index.js --progress --colors --inline"
   }
 }

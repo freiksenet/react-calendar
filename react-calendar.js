@@ -1,1 +1,1 @@
-var moment = require('moment');
+module.exports = require('./src/Calendar');
