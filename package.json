@@ -15,9 +15,12 @@
     "url": "https://github.com/freiksenet/react-calendar.git"
   },
   "dependencies": {
-    "moment": "^2.8.3"
+    "lodash": "^2.4.1",
+    "moment": "^2.8.3",
+    "react": "^0.11.2"
   },
   "devDependencies": {
+    "jsx-loader": "^0.11.0",
     "webpack": "^1.4.3",
     "webpack-dev-server": "^1.6.5"
   },
@@ -26,6 +29,6 @@
     "prepublish": "webpack",
     "umd": "webpack --config webpack.config.umd.js",
     "umd-min": "webpack --config webpack.config.min.js",
-    "server": "webpack-dev-server --entry ./index.js --progress --colors --inline"
+    "start": "webpack-dev-server -d --entry ./index.js --progress --colors --inline --config webpack.config.umd.js"
   }
 }
