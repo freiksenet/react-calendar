@@ -5,6 +5,7 @@ var React = require('react');
 
 var propTypes = require('./propTypes');
 var ClassNameMixin = require('./ClassNameMixin');
+var Day = require('./Day');
 
 var Week = React.createClass({
   mixins: [propTypes.Mixin(true,
@@ -33,10 +34,8 @@ var Week = React.createClass({
 
   makeDay: function (day) {
     return (
-      <div key={day.format()}>{day.format()}</div>
-      //<Day date={day}
-      //     current={this.props.current}
-      //    modifiers={modifiers} />
+      <Day key={day.format()}
+           date={day} />
     );
   },
 

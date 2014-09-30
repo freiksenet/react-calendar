@@ -121,16 +121,16 @@ var ClassNameMixin = {
   },
 
   getNamespace: function () {
-    return this.props.classNamespace || this.context.classNamespace;
+    return this.getPropOrCtx('classNamespace');
   },
 
   getClassNameOptions: function () {
-    return this.props.classNameOptions || this.context.classNameOptions;
+    return this.getPropOrCtx('classNameOptions');
   },
 
   className: function (options) {
     return new ClassNamer(_.assign({
-      classNamespace: this.getNamespace(),
+      namespace: this.getNamespace(),
       className: this.props.className || this.constructor.displayName
     }, this.getClassNameOptions(), options));
   }

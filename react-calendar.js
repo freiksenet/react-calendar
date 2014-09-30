@@ -1,3 +1,7 @@
 "use strict";
 
-module.exports = require('./src/Calendar');
+module.exports = {
+  Calendar: require('./src/Calendar'),
+  Month: require('./src/Month'),
+  Week: require('./src/Week')
+};
