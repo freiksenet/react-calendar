@@ -1,0 +1,77 @@
+// Sample bootstrap theme for react-calendar
+
+@import '~bootstrap/less/bootstrap.less';
+@import '~bootstrap/less/theme.less';
+
+.cell {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  text-align: center;
+}
+
+.rc {
+  &-Calendar {
+    &-header {
+      text-align: center;
+      font-weight: bolder;
+    }
+  }
+  &-Month {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 10px 10px;
+    &-header {
+      text-align: center;
+      font-weight: bolder;
+    }
+    &-weekdays {
+      margin-left: 32px;
+      &-weekday {
+        .cell();
+        font-weight: bolder;
+      }
+    }
+    &--current {
+      .rc-Month-header {
+        color: @brand-primary;
+      }
+    }
+  }
+  &-Week {
+    height: 32px;
+    &-number {
+      color: @gray-light;
+      .cell();
+    }
+    &-days {
+      border-left: 1px solid @gray-lighter;
+      border-top: 1px solid @gray-lighter;
+      display: inline-block;
+    }
+    &:last-child {
+      .rc-Week-days {
+        border-bottom: 1px solid @gray-lighter;
+      }
+    }
+  }
+  &-Day {
+    .cell();
+    border-right: 1px solid @gray-lighter;
+    cursor: pointer;
+    &:hover {
+      background-color: @brand-info;
+    }
+    &--outside {
+      cursor: default;
+      color: @gray-lighter;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    &--current {
+      background-color: @brand-primary;
+    }
+  }
+}

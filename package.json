@@ -20,7 +20,14 @@
     "react": "^0.11.2"
   },
   "devDependencies": {
+    "bootstrap": "^3.2.0",
+    "css-loader": "^0.9.0",
+     "file-loader": "^0.7.2",
     "jsx-loader": "^0.11.0",
+    "less": "^1.7.5",
+    "less-loader": "^0.7.7",
+    "style-loader": "^0.8.0",
+    "url-loader": "^0.5.5",
     "webpack": "^1.4.3",
     "webpack-dev-server": "^1.6.5"
   },

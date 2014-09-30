@@ -4,16 +4,31 @@
 var _ = require('lodash');
 var React = require('react');
 
+var dateUtils = require('./dateUtils');
+var CalendarBaseMixin = require('./CalendarBaseMixin');
 var propTypes = require('./propTypes');
 var ClassNameMixin = require('./ClassNameMixin');
 var Week = require('./Week');
+var Day = require('./Day');
 
 var Month = React.createClass({
-  mixins: [propTypes.Mixin(true,
-    'Month',
-    'Week',
-    'Day'
-  ), ClassNameMixin],
+  mixins: [
+    CalendarBaseMixin,
+    propTypes.Mixin(true,
+      'Month',
+      'Week',
+      'Day'
+    ),
+    ClassNameMixin
+  ],
+
+  createMonthEdge: function (date) {
+    return (
+      <Day key={date.format()}
+           date={date}
+           modifiers={{outside: true}} />
+    );
+  },
 
   makeHeader: function (classes) {
     if (this.getPropOrCtx('monthNames')) {
@@ -30,17 +45,12 @@ var Month = React.createClass({
 
   makeWeekHeader: function (classes) {
     if (this.getPropOrCtx('weekdayNames')) {
-      var weekStart = this.props.date.clone().startOf('week');
-      var week = [];
-      for (var offset = 0; offset < 7; offset++) {
-        weekStart.add(offset, 'day');
-        week.push(weekStart.format(this.getPropOrCtx('weekdayFormat')));
-      }
-      var weekEls = week.map(function (w, i) {
+      var week = dateUtils.daysOfWeek(this.props.date);
+      var weekEls = week.map((w, i) => {
         return (
           <div key={i}
                className={classes.descendant('weekday')()}>
-            {w}
+            {w.format(this.getPropOrCtx('weekdayFormat'))}
           </div>
         );
       });
@@ -55,21 +65,6 @@ var Month = React.createClass({
     }
   },
 
-  getWeekRange: function () {
-    var firstDay = this.props.date.clone().startOf('month');
-    var lastDay = this.props.date.clone().endOf('month');
-    return _.range(firstDay.week(), lastDay.week()).map((week) => {
-      return [week, this.props.date.clone().week(week).startOf('week')];
-    });
-  },
-
-  makeWeek: function ([week, start]) {
-    return (
-      <Week key={week}
-            date={start} />
-    );
-  },
-
   render: function () {
     return React.withContext(this.getCalendarCtx(), () => {
       var classes = this.className({
@@ -77,7 +72,13 @@ var Month = React.createClass({
         classes: this.props.classes
       });
 
-      var weeks = this.getWeekRange().map(this.makeWeek);
+      var childrenMap = this.splitChildrenByDate(
+        Week,
+        dateUtils.monthEdges(this.props.date).map(this.createMonthEdge)
+      );
+      var weeks = dateUtils.weeksOfMonth(this.props.date).map(
+        this.makeDirectChild.bind(this, childrenMap, Week)
+      );
 
       return (
         <div className={classes()}>

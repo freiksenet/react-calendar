@@ -72,6 +72,16 @@ module.exports.defaults.Calendar = {
   firstMonth: 'center'
 };
 
+module.exports.types.Year = {
+  yearHeader: React.PropTypes.bool,
+  yearHeaderFormat: React.PropTypes.string
+};
+
+module.exports.defaults.Year = {
+  yearHeader: true,
+  yearHeaderFormat: 'YYYY'
+};
+
 module.exports.types.Month = {
   monthNames: React.PropTypes.bool,
   monthNameFormat: React.PropTypes.string,
@@ -141,12 +151,5 @@ module.exports.Mixin = function (addContext, ...types) {
   result.getCalendarCtx = function () {
     return _.pick(this.props, _.keys(propTypes));
   };
-
-  result.moment = function (...args) {
-    var localMoment = moment.apply(args);
-    localMoment.locale(this.getPropOrCtx('locale'));
-    return localMoment;
-  };
-
   return result;
 };

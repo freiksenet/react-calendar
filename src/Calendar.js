@@ -5,17 +5,23 @@ var _ = require('lodash');
 var React = require('react');
 var moment = require('moment');
 
+var CalendarBaseMixin = require('./CalendarBaseMixin');
 var propTypes = require('./propTypes');
 var ClassNameMixin = require('./ClassNameMixin');
 var Month = require('./Month');
 
 var Calendar = React.createClass({
-  mixins: [propTypes.Mixin(false,
-    'Calendar',
-    'Month',
-    'Week',
-    'Day'
-  ), ClassNameMixin],
+  mixins: [
+    CalendarBaseMixin,
+    propTypes.Mixin(false,
+      'Calendar',
+      'Year',
+      'Month',
+      'Week',
+      'Day'
+    ),
+    ClassNameMixin
+  ],
 
   getInitialState: function () {
     return {
@@ -24,19 +30,23 @@ var Calendar = React.createClass({
   },
 
   makeHeader: function (classes) {
-    return (
-      <header key="header"
-              className={classes.descendant('header')}>
-        Header
-      </header>
-    );
+    if (this.getPropOrCtx('yearHeader')) {
+      return (
+        <header key="header"
+                className={classes.descendant('header')}>
+          {this.props.date.format(this.getPropOrCtx('yearHeaderFormat'))}
+        </header>
+      );
+    } else {
+      return null;
+    }
   },
 
   getMonthRange: function () {
     var range, left, right;
-    var focus = this.state.date.clone().date(1);
+    var focus = this.state.date.clone().startOf('month');
     var size = this.getPropOrCtx('size');
-    var firstMonth = this.getPropOrCtx('firstMonth');
+    var firstMonth = this.getPropOrCtx('firstMonth') - 1;
 
     if (_.isNumber(firstMonth) && size === 12) {
       var focusMonth = focus.month();
@@ -45,7 +55,7 @@ var Calendar = React.createClass({
       } else {
         left = focusMonth - firstMonth;
       }
-      left = -(left + 1);
+      left = -left;
       right = size + left;
     } else if (firstMonth === 'current') {
       left = 0;
@@ -61,10 +71,26 @@ var Calendar = React.createClass({
   },
 
   makeMonth: function (date) {
-    return (
-      <Month key={date.format()}
-             date={date} />
-    );
+    var monthProps = {
+      key: date.format(),
+      date: date
+    };
+    var children = [];
+
+    var monthChildren = this.children[date.format()];
+    if (monthChildren) {
+      children = monthChildren.others.slice();
+      if (monthChildren.months) {
+        monthChildren.months.forEach((child) => {
+          React.Children.forEach(child.props.children, (childChild) => {
+            children.push(childChild);
+          });
+          monthProps = _.assign({}, child.props, monthProps);
+        });
+      }
+    }
+
+    return Month(monthProps, children);
   },
 
   render: function () {
@@ -73,7 +99,10 @@ var Calendar = React.createClass({
         modifiers: this.props.modifiers,
         classes: this.props.classes
       });
-      var months = this.getMonthRange().map(this.makeMonth);
+      var childrenMap = this.splitChildrenByDate(Month);
+      var months = this.getMonthRange().map(
+        this.makeDirectChild.bind(this, childrenMap, Month)
+      );
       return (
         <div className={classes()}>
           {this.makeHeader(classes)}

@@ -3,15 +3,21 @@
 
 var React = require('react');
 
+var dateUtils = require('./dateUtils');
+var CalendarBaseMixin = require('./CalendarBaseMixin');
 var propTypes = require('./propTypes');
 var ClassNameMixin = require('./ClassNameMixin');
 var Day = require('./Day');
 
 var Week = React.createClass({
-  mixins: [propTypes.Mixin(true,
-    'Week',
-    'Day'
-  ), ClassNameMixin],
+  mixins: [
+    CalendarBaseMixin,
+    propTypes.Mixin(true,
+      'Week',
+      'Day'
+    ),
+    ClassNameMixin
+  ],
 
   makeWeekNumber: function (classes) {
     if (this.getPropOrCtx('weekNumbers')) {
@@ -26,19 +32,6 @@ var Week = React.createClass({
     }
   },
 
-  getDayRange: function () {
-    return _.range(0, 7).map((day) => {
-      return this.props.date.clone().add(day, 'day');
-    });
-  },
-
-  makeDay: function (day) {
-    return (
-      <Day key={day.format()}
-           date={day} />
-    );
-  },
-
   render: function () {
     return React.withContext(this.getCalendarCtx(), () => {
       var classes = this.className({
@@ -46,8 +39,9 @@ var Week = React.createClass({
         classes: this.props.classes
       });
 
-      var days = this.getDayRange().map(
-        this.makeDay
+      var childrenMap = this.splitChildrenByDate(Day);
+      var days = dateUtils.daysOfWeek(this.props.date).map(
+        this.makeDirectChild.bind(this, childrenMap, Day)
       );
 
       return (
