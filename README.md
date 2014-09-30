@@ -24,9 +24,9 @@ One year calendar:
           weekNumbers={true}
           size={12}>
   <Month date={moment()}                <!-- Pass subcomponents to mark -->
-        modifiers={{current: true}}/>   <!-- current month and day -->
+         modifiers={{current: true}}/>  <!-- current month and day -->
   <Day date={moment()}
-      modifiers={{current: true}} />
+       modifiers={{current: true}} />
 </Calendar>
 ```
 
