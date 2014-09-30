@@ -16,7 +16,7 @@ npm install
 npm run
 ```
 
-One year calendar:
+One year calendar ([Demo](http://freiksenet.github.io/react-calendar/)):
 
 ```html
 <Calendar firstMonth={1}                <!-- Base calendar compoment -->
