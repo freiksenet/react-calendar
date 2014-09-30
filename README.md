@@ -49,7 +49,7 @@ TODO
 * Events
 * Calendar should be able to page
 * A component for Year - Calendar is supposed to be a 'controller' component for
-  page-able calendar
+  pageable stuff
 * A component that is on lower level that Day - for events.
 * Utils to create range of components for modifying multiple components easier
 * An example datepicker component using react-calendar
