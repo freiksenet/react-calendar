@@ -6,4 +6,6 @@ exports.output = Object.create(exports.output);
 exports.output.path = 'build';
 exports.output.libraryTarget = 'umd';
 exports.externals = Object.create(exports.externals);
-exports.externals['react'] = 'React';
+exports.externals = {
+  react: 'React'
+};

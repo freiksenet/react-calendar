@@ -16,7 +16,9 @@
   },
   "dependencies": {
     "lodash": "^2.4.1",
-    "moment": "^2.8.3",
+    "moment": "^2.8.3"
+  },
+  "peerDependencies": {
     "react": "^0.11.2"
   },
   "devDependencies": {
@@ -34,9 +36,12 @@
   },
   "main": "./dist/react-calendar.js",
   "scripts": {
+    "clean": "rm -r build && rm -r dist",
     "prepublish": "webpack",
     "umd": "webpack --config webpack.config.umd.js",
     "umd-min": "webpack --config webpack.config.min.js",
-    "start": "webpack-dev-server -d --entry ./index.js --progress --colors --inline --config webpack.config.umd.js"
+    "demo": "webpack --config webpack.config.umd.js --entry ./index.js",
+    "start": "webpack-dev-server -d --entry ./index.js --progress --colors --inline --config webpack.config.umd.js",
+    "gh-pages": "./scripts/gh-pages.sh"
   }
 }
