@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 "use strict";
 
+var _ = require('lodash');
 var React = require('react');
 
 var propTypes = require('./propTypes');
@@ -25,7 +26,8 @@ var Day = React.createClass({
 
   makeBody: function (classes) {
     return (
-      <span className={classes()}>
+      <span key="body"
+            className={classes()}>
         {this.props.date.format(this.getPropOrCtx('dayFormat'))}
       </span>
     );
@@ -34,7 +36,8 @@ var Day = React.createClass({
   makeAgenda: function (classes) {
     if (this.getPropOrCtx('dayAgenda')) {
       return (
-        <div className={classes()}>
+        <div key="agenda"
+             className={classes()}>
         </div>
       );
     } else {
@@ -49,13 +52,15 @@ var Day = React.createClass({
         classes: this.props.classes
       });
 
-      return (
-        <div className={classes()}>
-          {this.makeHeader(classes.descendant('header'))}
-          {this.makeBody(classes.descendant('body'))}
-          {this.makeAgenda(classes.descendant('agenda'))}
-        </div>
-      );
+      var props = _.assign({
+        className: classes()
+      }, this.getEventHandlers());
+
+      return React.DOM.div(props, [
+        this.makeHeader(classes.descendant('header')),
+        this.makeBody(classes.descendant('body')),
+        this.makeAgenda(classes.descendant('agenda'))
+      ]);
     });
   }
 });

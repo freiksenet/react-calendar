@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 "use strict";
 
+var _ = require('lodash');
 var React = require('react');
 
 var dateUtils = require('./dateUtils');
@@ -44,14 +45,16 @@ var Week = React.createClass({
         this.makeDirectChild.bind(this, childrenMap, Day)
       );
 
-      return (
-        <div className={classes()}>
-          {this.makeWeekNumber(classes)}
-          <div className={classes.descendant('days')}>
-            {days}
-          </div>
+      var props = _.assign({
+        className: classes()
+      }, this.getEventHandlers());
+
+      return React.DOM.div(props, [
+        this.makeWeekNumber(classes),
+        <div key="days" className={classes.descendant('days')}>
+          {days}
         </div>
-      );
+      ]);
     });
   }
 });

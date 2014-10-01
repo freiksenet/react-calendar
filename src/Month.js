@@ -80,13 +80,15 @@ var Month = React.createClass({
         this.makeDirectChild.bind(this, childrenMap, Week)
       );
 
-      return (
-        <div className={classes()}>
-          {this.makeHeader(classes.descendant('header'))}
-          {this.makeWeekHeader(classes.descendant('weekdays'))}
-          {weeks}
-        </div>
-      );
+      var props = _.assign({
+        className: classes()
+      }, this.getEventHandlers());
+
+      return React.DOM.div(props, [
+        this.makeHeader(classes.descendant('header')),
+        this.makeWeekHeader(classes.descendant('weekdays')),
+        weeks
+      ]);
     });
   }
 });

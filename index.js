@@ -7,17 +7,23 @@ var {Calendar, Month, Week, Day} = require('./react-calendar');
 
 require('./less/bootstrap-theme.less');
 
-React.renderComponent((
+function handleClick (scope, m, e) {
+  alert("handleClick: " + scope + " " + m.format());
+};
+
+React.renderComponent(
   <div>
     <Calendar firstMonth={1}
               date={moment("2014-01-01")}
               weekNumbers={true}
               size={12}>
       <Month date={moment()}
-             modifiers={{current: true}}/>
+             modifiers={{current: true}}
+             onClick={handleClick} />
+      <Day onClick={handleClick}/>
       <Day date={moment()}
            modifiers={{current: true}} />
     </Calendar>
-  </div>
-  ), document.getElementById('app')
+  </div>,
+  document.getElementById('app')
 );

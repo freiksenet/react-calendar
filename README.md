@@ -37,6 +37,25 @@ rendering.
 <Month date={moment()} />
 ```
 
+If component is passed without date it modifies *all* components of this type in
+the tree. Useful, for example, for passing callbacks.
+
+```html
+<Calendar firstMonth={1}
+          date={moment("2014-01-01")}
+          weekNumbers={true}
+          size={12}>
+  <Day onClick={handleClick}/>
+</Calendar>
+```
+
+Events
+------
+
+All mouse and touch events are supported on all components with react style
+onCamelCase props (eg. onClick). Event handlers recieves three arguments -
+name of the component, date in moment.js format and the original react event.
+
 Styling
 -------
 
@@ -46,7 +65,8 @@ in less/bootstrap-theme.less.
 TODO
 ----
 
-* Events
+* Merging of modifiers and classe
+* Docs
 * Calendar should be able to page
 * A component for Year - Calendar is supposed to be a 'controller' component for
   pageable stuff

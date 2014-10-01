@@ -103,12 +103,15 @@ var Calendar = React.createClass({
       var months = this.getMonthRange().map(
         this.makeDirectChild.bind(this, childrenMap, Month)
       );
-      return (
-        <div className={classes()}>
-          {this.makeHeader(classes)}
-          {months}
-        </div>
-      );
+
+      var props = _.assign({
+        className: classes()
+      }, this.getEventHandlers());
+
+      return React.DOM.div(props, [
+        this.makeHeader(classes),
+        months
+      ]);
     });
   }
 });

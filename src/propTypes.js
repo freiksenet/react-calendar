@@ -120,6 +120,20 @@ module.exports.defaults.Day = {
   dayFormat: 'D'
 };
 
+var eventList = [
+  'onClick', 'onDoubleClick', 'onDrag', 'onDragEnd', 'onDragEnter',
+  'onDragExit', 'onDragLeave', 'onDragOver', 'onDragStart', 'onDrop',
+  'onMouseDown', 'onMouseEnter', 'onMouseLeave', 'onMouseMove', 'onMouseOut',
+  'onMouseOver', 'onMouseUp', 'onTouchCancel', 'onTouchEnd', 'onTouchMove',
+  'onTouchStart'
+];
+
+['Day', 'Week', 'Month', 'Year'].forEach(function (item) {
+  eventList.forEach(function (event) {
+    module.exports.types[item][event] = React.PropTypes.func;
+  });
+});
+
 module.exports.Mixin = function (addContext, ...types) {
   types.unshift('Generic');
   var propTypes = {};
@@ -151,5 +165,18 @@ module.exports.Mixin = function (addContext, ...types) {
   result.getCalendarCtx = function () {
     return _.pick(this.props, _.keys(propTypes));
   };
+
+  result.getEventHandlers = function () {
+    return _.mapValues(_.pick(this.props, (value, key) => {
+      return _.contains(eventList, key);
+    }), (cb) => {
+      return cb.bind(
+        this,
+        this.constructor.displayName,
+        this.props.date.clone()
+      );
+    });
+  };
+
   return result;
 };

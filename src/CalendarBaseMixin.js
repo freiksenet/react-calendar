@@ -25,7 +25,10 @@ var CalendarBaseMixin = {
       children.push(child);
     });
 
-    var result = {};
+    var result = {
+      thisGlobals: [],
+      nextGlobals: []
+    };
     var dateString = dateToComponentMap[comp.displayName];
     children.forEach((child) => {
       if (child.props.date) {
@@ -35,11 +38,19 @@ var CalendarBaseMixin = {
           nextLevels: []
         };
         if (child instanceof comp) {
-          existing.thisLevel.push(child);
+          if (child.props.date === 'all') {
+
+          } else {
+            existing.thisLevel.push(child);
+          }
         } else {
           existing.nextLevels.push(child);
         };
         result[childDate] = existing;
+      } else if (child instanceof comp){
+        result.thisGlobals.push(child);
+      } else {
+        result.nextGlobals.push(child);
       }
     });
 
@@ -47,30 +58,28 @@ var CalendarBaseMixin = {
   },
 
   makeDirectChild: function (childrenMap, comp, date) {
+    var key = date.format(dateToComponentMap[comp.displayName]);
     var props = {
-      key: date.format(),
+      key: key,
       date: date
     };
-    var children = [];
 
-    var thisChildren = childrenMap[
-      date.format(dateToComponentMap[comp.displayName])
-    ];
+    var thisChildren = childrenMap[key] || {};
+    var thisLevel = childrenMap.thisGlobals.concat(
+      thisChildren.thisLevel || []
+    );
+    var children = childrenMap.nextGlobals.concat(
+      thisChildren.nextLevels || []
+    );
 
-    if (thisChildren) {
-      children = thisChildren.nextLevels.slice();
-      if (thisChildren.thisLevel) {
-        thisChildren.thisLevel.forEach((child) => {
-          React.Children.forEach(child.props.children, (childChild) => {
-            children.push(childChild);
-          });
-          props = _.assign({}, child.props, props);
-        });
-      }
-    }
+    thisLevel.forEach((child) => {
+      React.Children.forEach(child.props.children, (childChild) => {
+        children.push(childChild);
+      });
+      props = _.assign({}, child.props, props);
+    });
 
     return comp(props, children);
-
   }
 };
 
