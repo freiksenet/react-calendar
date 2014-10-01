@@ -20,7 +20,7 @@ React.renderComponent(
       <Month date={moment()}
              modifiers={{current: true}}
              onClick={handleClick} />
-      <Day onClick={handleClick}/>
+      <Day onClick={handleClick} />
       <Day date={moment()}
            modifiers={{current: true}} />
     </Calendar>

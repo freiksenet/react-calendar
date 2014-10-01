@@ -45,7 +45,7 @@ the tree. Useful, for example, for passing callbacks.
           date={moment("2014-01-01")}
           weekNumbers={true}
           size={12}>
-  <Day onClick={handleClick}/>
+  <Day onClick={handleClick} />
 </Calendar>
 ```
 
