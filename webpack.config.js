@@ -4,7 +4,7 @@ module.exports = {
      path: 'dist',
      filename: 'react-calendar.js',
      library: 'ReactCalendar',
-     libraryTarget: 'commonjs2'
+     libraryTarget: 'umd'
   },
   module: {
     loaders: [
@@ -18,9 +18,14 @@ module.exports = {
     ]
   },
   externals: {
-    "react": "react",
-    "lodash": "lodash",
-    "moment": "moment"
+    react: {
+      root: "React",
+      commonjs: "react",
+      commonjs2: "react",
+      amd: "react"
+    },
+    lodash: "lodash",
+    moment: "moment"
   },
   plugins: []
 };

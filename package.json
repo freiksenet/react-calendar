@@ -15,11 +15,11 @@
     "url": "https://github.com/freiksenet/react-calendar.git"
   },
   "dependencies": {
-    "lodash": "^2.4.1",
-    "moment": "^2.8.3"
+    "lodash": "^2.4.1"
   },
   "peerDependencies": {
-    "react": "^0.11.2"
+    "react": "^0.11.2",
+    "moment": "^2.8.3"
   },
   "devDependencies": {
     "bootstrap": "^3.2.0",
