@@ -40,8 +40,8 @@
     "prepublish": "webpack",
     "umd": "webpack --config webpack.config.umd.js",
     "umd-min": "webpack --config webpack.config.min.js",
-    "demo": "webpack --config webpack.config.umd.js --entry ./index.js",
-    "start": "webpack-dev-server -d --entry ./index.js --progress --colors --inline --config webpack.config.umd.js",
+    "demo": "webpack --config webpack.config.umd.js --entry ./demo.js",
+    "start": "webpack-dev-server -d --entry ./demo.js --progress --colors --inline --config webpack.config.umd.js",
     "gh-pages": "./scripts/gh-pages.sh"
   }
 }
