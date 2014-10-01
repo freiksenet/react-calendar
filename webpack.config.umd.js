@@ -4,5 +4,12 @@ module.exports = exports = Object.create(require("./webpack.config.js"));
 
 exports.output = Object.create(exports.output);
 exports.output.path = 'build';
-exports.externals = Object.create(exports.externals);
-delete(exports.externals['lodash']);
+exports.externals = {
+  react: {
+    root: "React",
+    commonjs: "react",
+    commonjs2: "react",
+    amd: "react"
+  },
+  moment: "moment"
+};
