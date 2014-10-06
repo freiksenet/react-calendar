@@ -1,4 +1,6 @@
-module.exports = {
+var webpack = require("webpack");
+
+var config = {
   entry: './react-calendar.js',
   output: {
      path: 'dist',
@@ -10,11 +12,11 @@ module.exports = {
     loaders: [
       { test: /\.js$/, loader: 'jsx-loader?harmony'},
       // For sample theme
-      { test: /\.less$/, loader: 'file-loader?name=[name].css!less-loader'},
-      { test: /\.woff$/,   loader: "url-loader?limit=10000&minetype=application/font-woff" },
-      { test: /\.ttf$/,    loader: "file-loader" },
-      { test: /\.eot$/,    loader: "file-loader" },
-      { test: /\.svg$/,    loader: "file-loader" }
+      { test: /\.less$/, loader: 'style-loader!css-loader!less-loader'},
+      { test: /\.woff$/, loader: "file-loader" },
+      { test: /\.ttf$/, loader: "file-loader" },
+      { test: /\.eot$/, loader: "file-loader" },
+      { test: /\.svg$/, loader: "file-loader" }
     ]
   },
   externals: {
@@ -24,8 +26,31 @@ module.exports = {
       commonjs2: "react",
       amd: "react"
     },
-    lodash: "lodash",
     moment: "moment"
   },
   plugins: []
 };
+
+if (process.env.REACT_CALENDAR_WEBPACK === 'umd_min') {
+  config.plugins = [
+    new webpack.optimize.UglifyJsPlugin()
+  ];
+  config.output.path = 'build';
+  config.output.filename = config.output.filename.replace(/\.js$/, ".min.js");
+} else if (process.env.REACT_CALENDAR_WEBPACK === 'umd') {
+  config.output.path = 'build';
+} else if (process.env.REACT_CALENDAR_WEBPACK === 'server') {
+  config.module.loaders[0] = { test: /\.js$/, loader: 'react-hot!jsx-loader?harmony'};
+  config.plugins = [
+    new webpack.NoErrorsPlugin()
+  ];
+} else {
+  config.externals.lodash = {
+    root: "_",
+    commonjs: "lodash",
+    commonjs2: "lodash",
+    amd: "lodash"
+  };
+}
+
+module.exports = config;

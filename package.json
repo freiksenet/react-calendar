@@ -22,15 +22,17 @@
     "moment": "^2.8.3"
   },
   "devDependencies": {
-    "react": "^0.11.2",
-    "moment": "^2.8.3",
     "bootstrap": "^3.2.0",
     "css-loader": "^0.9.0",
     "file-loader": "^0.7.2",
     "jsx-loader": "^0.11.0",
     "less": "^1.7.5",
     "less-loader": "^0.7.7",
-    "style-loader": "^0.8.0",
+    "moment": "^2.8.3",
+    "raw-loader": "^0.5.1",
+    "react": "^0.11.2",
+    "react-hot-loader": "^0.4.5",
+    "style-loader": "^0.8.1",
     "url-loader": "^0.5.5",
     "webpack": "^1.4.3",
     "webpack-dev-server": "^1.6.5",
@@ -40,10 +42,10 @@
   "scripts": {
     "clean": "rm -r build && rm -r dist",
     "prepublish": "webpack",
-    "umd": "webpack --config webpack.config.umd.js",
-    "umd-min": "webpack --config webpack.config.min.js",
-    "demo": "webpack --config webpack.config.umd.js --entry ./demo.js",
-    "start": "webpack-dev-server -d --entry ./demo.js --progress --colors --inline --config webpack.config.umd.js",
+    "umd": "REACT_CALENDAR_WEBPACK=umd webpack",
+    "umd-min": "REACT_CALENDAR_WEBPACK=umd_min webpack",
+    "demo": "webpack --entry ./demo.js",
+    "start": "REACT_CALENDAR_WEBPACK=server webpack-dev-server -d --entry ./demo.js --hot --progress --colors --inline",
     "gh-pages": "./scripts/gh-pages.sh"
   }
 }
