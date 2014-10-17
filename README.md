@@ -62,6 +62,22 @@ Styling
 There is no style by default, but an example theme using bootstrap is included
 in less/bootstrap-theme.less.
 
+react-calendar uses SuitCSS style (a variant of BEM) to make default class hierarchy,
+if you want to add a class that is separate from that hierarchy just pass `classes` 
+prop to any component. `classes` is an object with keys as class names and values as
+boolean-like values (this will be probably changed to just passing array of classes in 
+future API). If you want to add SuitCSS modifier classes (eg `rc-Day--current`),
+pass similar object via `modifiers` prop (again this will probably become an array 
+in next version of API).
+
+For example:
+
+```html
+<Day date={moment()} classes={{foo: true}} modifiers={{bar: true}} />
+```
+
+will yield the following classes: `"rc-Day rc-Day--bar foo".`
+
 TODO
 ----
 
