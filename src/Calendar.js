@@ -38,7 +38,7 @@ var Calendar = React.createClass({
 
   getMonthRange: function () {
     var range, left, right;
-    var focus = this.moment(this.props.date).clone().startOf('month');
+    var focus = this.moment(this.props.date).startOf('month');
     var size = this.getPropOrCtx('size');
     var firstMonth = this.getPropOrCtx('firstMonth') - 1;
 
