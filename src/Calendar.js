@@ -23,12 +23,6 @@ var Calendar = React.createClass({
     ClassNameMixin
   ],
 
-  getInitialState: function () {
-    return {
-      date: this.moment(this.props.date)
-    };
-  },
-
   makeHeader: function (classes) {
     if (this.getPropOrCtx('yearHeader')) {
       return (
@@ -44,7 +38,7 @@ var Calendar = React.createClass({
 
   getMonthRange: function () {
     var range, left, right;
-    var focus = this.state.date.clone().startOf('month');
+    var focus = this.moment(this.props.date).startOf('month');
     var size = this.getPropOrCtx('size');
     var firstMonth = this.getPropOrCtx('firstMonth') - 1;
 
