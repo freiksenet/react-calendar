@@ -44,7 +44,7 @@
     "prepublish": "webpack",
     "umd": "REACT_CALENDAR_WEBPACK=umd webpack",
     "umd-min": "REACT_CALENDAR_WEBPACK=umd_min webpack",
-    "demo": "webpack --entry ./demo.js",
+    "demo": "REACT_CALENDAR_WEBPACK=umd webpack --entry ./demo.js",
     "start": "REACT_CALENDAR_WEBPACK=server webpack-dev-server -d --entry ./demo.js --hot --progress --colors --inline",
     "gh-pages": "./scripts/gh-pages.sh"
   }
