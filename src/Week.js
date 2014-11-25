@@ -8,7 +8,7 @@ var dateUtils = require('./dateUtils');
 var CalendarBaseMixin = require('./CalendarBaseMixin');
 var propTypes = require('./propTypes');
 var ClassNameMixin = require('./ClassNameMixin');
-var Day = require('./Day');
+var Day = React.createFactory(require('./Day'));
 
 var Week = React.createClass({
   mixins: [
@@ -23,7 +23,7 @@ var Week = React.createClass({
   makeWeekNumber: function (classes) {
     if (this.getPropOrCtx('weekNumbers')) {
       return (
-        <div key={"weekNumber-" + this.props.date.week()}
+        <div key="weekNumber"
              className={classes.descendant('number')()}>
           {this.props.date.format(this.getPropOrCtx('weekNumberFormat'))}
         </div>

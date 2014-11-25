@@ -18,6 +18,7 @@ var CalendarBaseMixin = {
   },
 
   splitChildrenByDate: function (comp, children) {
+    var compType = comp().type;
     if (!children) {
       children = [];
     }
@@ -29,7 +30,7 @@ var CalendarBaseMixin = {
       thisGlobals: [],
       nextGlobals: []
     };
-    var dateString = dateToComponentMap[comp.displayName];
+    var dateString = dateToComponentMap[compType.displayName];
     children.forEach((child) => {
       if (child.props.date) {
         var childDate = child.props.date.format(dateString);
@@ -37,17 +38,13 @@ var CalendarBaseMixin = {
           thisLevel: [],
           nextLevels: []
         };
-        if (child instanceof comp) {
-          if (child.props.date === 'all') {
-
-          } else {
-            existing.thisLevel.push(child);
-          }
+        if (child.type === compType) {
+          existing.thisLevel.push(child);
         } else {
           existing.nextLevels.push(child);
         };
         result[childDate] = existing;
-      } else if (child instanceof comp){
+      } else if (child.type === compType) {
         result.thisGlobals.push(child);
       } else {
         result.nextGlobals.push(child);
@@ -57,14 +54,14 @@ var CalendarBaseMixin = {
     return result;
   },
 
-  makeDirectChild: function (childrenMap, comp, date) {
-    var key = date.format(dateToComponentMap[comp.displayName]);
+  makeDirectChild: function (childrenMap, comp, date, key) {
+    var dateString = date.format(dateToComponentMap[comp().type.displayName]);
     var props = {
       key: key,
       date: date
     };
 
-    var thisChildren = childrenMap[key] || {};
+    var thisChildren = childrenMap[dateString] || {};
     var thisLevel = childrenMap.thisGlobals.concat(
       thisChildren.thisLevel || []
     );
@@ -78,6 +75,7 @@ var CalendarBaseMixin = {
       });
       props = _.assign({}, child.props, props);
     });
+
 
     return comp(props, children);
   }

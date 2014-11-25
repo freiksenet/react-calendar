@@ -8,8 +8,8 @@ var dateUtils = require('./dateUtils');
 var CalendarBaseMixin = require('./CalendarBaseMixin');
 var propTypes = require('./propTypes');
 var ClassNameMixin = require('./ClassNameMixin');
-var Week = require('./Week');
-var Day = require('./Day');
+var Week = React.createFactory(require('./Week'));
+var Day = React.createFactory(require('./Day'));
 
 var Month = React.createClass({
   mixins: [
@@ -22,12 +22,12 @@ var Month = React.createClass({
     ClassNameMixin
   ],
 
-  createMonthEdge: function (date) {
-    return (
-      <Day key={date.format()}
-           date={date}
-           modifiers={{outside: true}} />
-    );
+  createMonthEdge: function (date, i) {
+    return Day({
+      key: 'edge-' + i,
+      date: date,
+      modifiers: {outside: true}
+    });
   },
 
   makeHeader: function (classes) {

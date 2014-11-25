@@ -8,7 +8,7 @@ var moment = require('moment');
 var CalendarBaseMixin = require('./CalendarBaseMixin');
 var propTypes = require('./propTypes');
 var ClassNameMixin = require('./ClassNameMixin');
-var Month = require('./Month');
+var Month = React.createFactory(require('./Month'));
 
 var Calendar = React.createClass({
   mixins: [
@@ -62,29 +62,6 @@ var Calendar = React.createClass({
     return _.range(left, right).map((offset) => {
       return focus.clone().add(offset, 'months');
     });
-  },
-
-  makeMonth: function (date) {
-    var monthProps = {
-      key: date.format(),
-      date: date
-    };
-    var children = [];
-
-    var monthChildren = this.children[date.format()];
-    if (monthChildren) {
-      children = monthChildren.others.slice();
-      if (monthChildren.months) {
-        monthChildren.months.forEach((child) => {
-          React.Children.forEach(child.props.children, (childChild) => {
-            children.push(childChild);
-          });
-          monthProps = _.assign({}, child.props, monthProps);
-        });
-      }
-    }
-
-    return Month(monthProps, children);
   },
 
   render: function () {
