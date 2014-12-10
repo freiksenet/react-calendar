@@ -73,7 +73,17 @@ var CalendarBaseMixin = {
       React.Children.forEach(child.props.children, (childChild) => {
         children.push(childChild);
       });
-      props = _.assign({}, child.props, props);
+      var mergedProps = ['modifiers', 'classes'].reduce((merged, propKey) => {
+        if (props.hasOwnProperty(propKey) &&
+            child.props.hasOwnProperty(propKey)) {
+          merged[propKey] = _.assign({},
+            props[propKey],
+            child.props[propKey]
+          );
+        }
+        return merged;
+      }, {});
+      props = _.assign({}, child.props, props, mergedProps);
     });
 
 
