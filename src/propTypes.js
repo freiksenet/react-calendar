@@ -171,7 +171,7 @@ module.exports.Mixin = function (addContext, ...types) {
       return _.contains(eventList, key);
     }), (cb) => {
       return cb.bind(
-        this,
+        null,
         this.constructor.displayName,
         this.props.date.clone()
       );

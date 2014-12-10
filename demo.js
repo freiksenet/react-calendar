@@ -7,10 +7,6 @@ var {Calendar, Month, Week, Day} = require('./react-calendar');
 
 require('./less/bootstrap-theme.less');
 
-function handleClick (scope, m, e) {
-  alert("handleClick: " + scope + " " + m.format());
-};
-
 var PagingCalendar = React.createClass({
   getInitialState: function () {
     return {
@@ -32,6 +28,10 @@ var PagingCalendar = React.createClass({
     });
   },
 
+  handleClick: function (scope, m, e) {
+    alert("handleClick: " + scope + " " + m.format());
+  },
+
   render: function () {
     return (
       <div>
@@ -45,10 +45,10 @@ var PagingCalendar = React.createClass({
                   date={this.state.date}
                   weekNumbers={true}
                   size={12}>
-          <Day onClick={handleClick} />
+          <Day onClick={this.handleClick} />
           <Month date={moment()}
                  modifiers={{current: true}}
-                 onClick={handleClick} />
+                 onClick={this.handleClick} />
           <Day date={moment()}
                modifiers={{current: true}} />
         </Calendar>
