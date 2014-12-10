@@ -155,7 +155,7 @@ module.exports.Mixin = function (addContext, ...types) {
   result.getPropOrCtx = function (val) {
     if (this.props[val] !== undefined) {
       return this.props[val];
-    } else if (this.context[val]) {
+    } else if (this.context[val] !== undefined) {
       return this.context[val];
     } else {
       return defaultProps[val];
