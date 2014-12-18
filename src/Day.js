@@ -16,7 +16,7 @@ var Day = React.createClass({
     if (this.getPropOrCtx('dayHeader')) {
       return (
         <header className={classes()}>
-          {this.porps.date.format(this.getPropOrCtx('dayHeaderFormat'))}
+          {this.props.date.format(this.getPropOrCtx('dayHeaderFormat'))}
         </header>
       );
     } else {
