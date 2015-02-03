@@ -6,7 +6,7 @@ var moment = require('moment');
 
 var dateToComponentMap = {
   Month: 'YYYY-MM',
-  Week: 'YYYY-ww',
+  Week: 'gggg-ww',
   Day: 'YYYY-DDDD'
 };
 
