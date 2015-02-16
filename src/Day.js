@@ -38,6 +38,7 @@ var Day = React.createClass({
       return (
         <div key="agenda"
              className={classes()}>
+          {this.props.children}
         </div>
       );
     } else {
