@@ -1,7 +1,7 @@
 {
   "name": "react-calendar",
   "version": "0.3.0",
-  "author": "Mikhail <freiksenet@gmail.com> Novikov",
+  "author": "vivian.perez@elipce.com",
   "description": "Calendar component for ReactJS",
   "keywords": [
     "react",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/freiksenet/react-calendar.git"
+    "url": "https://github.com/Elipce-Informatique/react-calendar.git"
   },
   "dependencies": {
     "lodash": "^2.4.1"
