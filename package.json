@@ -52,6 +52,7 @@
     "lprepublish": "webpack",
     "lumd": "webpack",
     "lumd-min": "webpack",
-    "ldemo": "webpack --entry ./demo.js"
+    "ldemo": "webpack --entry ./demo.js",
+    "lstart": "webpack-dev-server -d --entry ./demo.js --hot --progress --colors --inline"
   }
 }
