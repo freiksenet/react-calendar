@@ -33,7 +33,8 @@ var config = {
 };
 //console.log('HUSS %o',process.env);
 
-process.env.REACT_CALENDAR_WEBPACK = 'umd';
+// TODO activer en local
+//process.env.REACT_CALENDAR_WEBPACK = 'umd';
 
 if (process.env.REACT_CALENDAR_WEBPACK === 'umd_min') {
   config.plugins = [
