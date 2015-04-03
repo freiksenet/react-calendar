@@ -29,7 +29,11 @@ var PagingCalendar = React.createClass({
   },
 
   handleClick: function (scope, m, e) {
-    alert("handleClick: " + scope + " " + m.format());
+    //alert("handleClick: " + scope + " " + m.format());
+
+      if(scope == 'Day'){
+          $(e.currentTarget).addClass('bg-success');
+      }
   },
 
   render: function () {
@@ -41,10 +45,12 @@ var PagingCalendar = React.createClass({
         <a href="#" className="nextYear" onClick={this.handleNextYear}>
           Next Year
         </a>
-        <Calendar firstMonth={1}
-                  date={this.state.date}
-                  weekNumbers={true}
-                  size={12}>
+        <Calendar
+            firstMonth={1}
+            date={this.state.date}
+            weekNumbers={true}
+            size={12}
+            locale = "fr">
           <Day onClick={this.handleClick} />
           <Month date={moment()}
                  modifiers={{current: true}}

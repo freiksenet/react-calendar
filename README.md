@@ -78,6 +78,16 @@ For example:
 
 will yield the following classes: `"rc-Day rc-Day--bar foo".`
 
+
+MultiLang
+---------
+
+PropTypes are managed globaly in propTypes.js file.
+Default proptypes are defined but it's possible to change props.
+In Calendar comonent set locale prop to fr to change calendar lang
+ex: <Calendar locale="fr">
+
+
 TODO
 ----
 

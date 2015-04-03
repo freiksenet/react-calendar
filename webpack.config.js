@@ -14,6 +14,7 @@ var config = {
       // For sample theme
       { test: /\.less$/, loader: 'style-loader!css-loader!less-loader'},
       { test: /\.woff$/, loader: "file-loader" },
+        { test: /\.woff2$/, loader: "file-loader" },
       { test: /\.ttf$/, loader: "file-loader" },
       { test: /\.eot$/, loader: "file-loader" },
       { test: /\.svg$/, loader: "file-loader" }
@@ -30,6 +31,9 @@ var config = {
   },
   plugins: []
 };
+//console.log('HUSS %o',process.env);
+
+process.env.REACT_CALENDAR_WEBPACK = 'umd';
 
 if (process.env.REACT_CALENDAR_WEBPACK === 'umd_min') {
   config.plugins = [
