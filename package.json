@@ -50,8 +50,8 @@
 
     "lclean" : "del build dist",
     "lprepublish": "webpack",
-    "lumd": "webpack",          // webpack.config ln 36 ajouter process.env.REACT_CALENDAR_WEBPACK = 'umd';
-    "lumd-min": "webpack",      // webpack.config ln 36 ajouter process.env.REACT_CALENDAR_WEBPACK = 'umd-min';
+    "lumd": "webpack",
+    "lumd-min": "webpack",
     "ldemo": "webpack --entry ./demo.js"
   }
 }
