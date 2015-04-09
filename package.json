@@ -18,7 +18,7 @@
     "lodash": "^2.4.1"
   },
   "peerDependencies": {
-    "react": "^0.12.1",
+    "react": "^0.13.x",
     "moment": "^2.8.3"
   },
   "devDependencies": {
