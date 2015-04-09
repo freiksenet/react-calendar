@@ -14,6 +14,7 @@
     "type": "git",
     "url": "https://github.com/Elipce-Informatique/react-calendar.git"
   },
+
   "dependencies": {
     "lodash": "^2.4.1"
   },
