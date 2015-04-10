@@ -22,7 +22,7 @@
     "moment": "^2.8.3"
   },
   "devDependencies": {
-    "bootstrap": "^3.2.0",
+    "bootstrap": "~3.2.0",
     "css-loader": "^0.9.0",
     "file-loader": "^0.7.2",
     "jsx-loader": "^0.12.2",
