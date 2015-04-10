@@ -44,24 +44,25 @@ var Day = React.createClass({
       return null;
     }
   },
+  getChildContext(){
+    return this.getCalendarCtx();
+  },
 
   render: function () {
-    return React.withContext(this.getCalendarCtx(), () => {
-      var classes = this.className({
-        modifiers: this.props.modifiers,
-        classes: this.props.classes
-      });
-
-      var props = _.assign({
-        className: classes()
-      }, this.getEventHandlers());
-
-      return React.DOM.div(props, [
-        this.makeHeader(classes.descendant('header')),
-        this.makeBody(classes.descendant('body')),
-        this.makeAgenda(classes.descendant('agenda'))
-      ]);
+    var classes = this.className({
+      modifiers: this.props.modifiers,
+      classes: this.props.classes
     });
+
+    var props = _.assign({
+      className: classes()
+    }, this.getEventHandlers());
+
+    return React.DOM.div(props, [
+      this.makeHeader(classes.descendant('header')),
+      this.makeBody(classes.descendant('body')),
+      this.makeAgenda(classes.descendant('agenda'))
+    ]);
   }
 });
 

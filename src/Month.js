@@ -64,31 +64,33 @@ var Month = React.createClass({
     }
   },
 
+  getChildContext(){
+    return this.getCalendarCtx();
+  },
+
   render: function () {
-    return React.withContext(this.getCalendarCtx(), () => {
-      var classes = this.className({
-        modifiers: this.props.modifiers,
-        classes: this.props.classes
-      });
-
-      var childrenMap = this.splitChildrenByDate(
-        Week,
-        dateUtils.monthEdges(this.props.date).map(this.createMonthEdge)
-      );
-      var weeks = dateUtils.weeksOfMonth(this.props.date).map(
-        this.makeDirectChild.bind(this, childrenMap, Week)
-      );
-
-      var props = _.assign({
-        className: classes()
-      }, this.getEventHandlers());
-
-      return React.DOM.div(props, [
-        this.makeHeader(classes.descendant('header')),
-        this.makeWeekHeader(classes.descendant('weekdays')),
-        weeks
-      ]);
+    var classes = this.className({
+      modifiers: this.props.modifiers,
+      classes: this.props.classes
     });
+
+    var childrenMap = this.splitChildrenByDate(
+      Week,
+      dateUtils.monthEdges(this.props.date).map(this.createMonthEdge)
+    );
+    var weeks = dateUtils.weeksOfMonth(this.props.date).map(
+      this.makeDirectChild.bind(this, childrenMap, Week)
+    );
+
+    var props = _.assign({
+      className: classes()
+    }, this.getEventHandlers());
+
+    return React.DOM.div(props, [
+      this.makeHeader(classes.descendant('header')),
+      this.makeWeekHeader(classes.descendant('weekdays')),
+      weeks
+    ]);
   }
 });
 

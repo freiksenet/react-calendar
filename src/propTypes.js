@@ -145,7 +145,8 @@ module.exports.Mixin = function (addContext, ...types) {
   });
 
   var result = {
-    propTypes: propTypes
+    propTypes: propTypes,
+    childContextTypes: propTypes
   };
 
   if (addContext) {
