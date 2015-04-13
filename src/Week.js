@@ -31,30 +31,31 @@ var Week = React.createClass({
       return null;
     }
   },
+  getChildContext(){
+    return this.getCalendarCtx();
+  },
 
   render: function () {
-    return React.withContext(this.getCalendarCtx(), () => {
-      var classes = this.className({
-        modifiers: this.props.modifiers,
-        classes: this.props.classes
-      });
-
-      var childrenMap = this.splitChildrenByDate(Day);
-      var days = dateUtils.daysOfWeek(this.props.date).map(
-        this.makeDirectChild.bind(this, childrenMap, Day)
-      );
-
-      var props = _.assign({
-        className: classes()
-      }, this.getEventHandlers());
-
-      return React.DOM.div(props, [
-        this.makeWeekNumber(classes),
-        <div key="days" className={classes.descendant('days')}>
-          {days}
-        </div>
-      ]);
+    var classes = this.className({
+      modifiers: this.props.modifiers,
+      classes: this.props.classes
     });
+
+    var childrenMap = this.splitChildrenByDate(Day);
+    var days = dateUtils.daysOfWeek(this.props.date).map(
+      this.makeDirectChild.bind(this, childrenMap, Day)
+    );
+
+    var props = _.assign({
+      className: classes()
+    }, this.getEventHandlers());
+
+    return React.DOM.div(props, [
+      this.makeWeekNumber(classes),
+      <div key="days" className={classes.descendant('days')}>
+        {days}
+      </div>
+    ]);
   }
 });
 

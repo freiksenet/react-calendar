@@ -35,6 +35,10 @@ var Calendar = React.createClass({
     }
   },
 
+  getChildContext(){
+    return this.getCalendarCtx();
+  },
+
   getMonthRange: function () {
     var range, left, right;
     var focus = this.moment(this.props.date).startOf('month');
@@ -64,25 +68,23 @@ var Calendar = React.createClass({
   },
 
   render: function () {
-    return React.withContext(this.getCalendarCtx(), () => {
-      var classes = this.className({
-        modifiers: this.props.modifiers,
-        classes: this.props.classes
-      });
-      var childrenMap = this.splitChildrenByDate(Month);
-      var months = this.getMonthRange().map(
-        this.makeDirectChild.bind(this, childrenMap, Month)
-      );
-
-      var props = _.assign({
-        className: classes()
-      }, this.getEventHandlers());
-
-      return React.DOM.div(props, [
-        this.makeHeader(classes),
-        months
-      ]);
+    var classes = this.className({
+      modifiers: this.props.modifiers,
+      classes: this.props.classes
     });
+    var childrenMap = this.splitChildrenByDate(Month);
+    var months = this.getMonthRange().map(
+      this.makeDirectChild.bind(this, childrenMap, Month)
+    );
+
+    var props = _.assign({
+      className: classes()
+    }, this.getEventHandlers());
+
+    return React.DOM.div(props, [
+      this.makeHeader(classes),
+      months
+    ]);
   }
 });
 
