@@ -47,7 +47,7 @@ var Day = React.createClass({
   },
 
   render: function () {
-    return React.withContext(this.getCalendarCtx(), () => {
+
       var classes = this.className({
         modifiers: this.props.modifiers,
         classes: this.props.classes
@@ -62,7 +62,6 @@ var Day = React.createClass({
         this.makeBody(classes.descendant('body')),
         this.makeAgenda(classes.descendant('agenda'))
       ]);
-    });
   }
 });
 

@@ -66,7 +66,6 @@ var Month = React.createClass({
   },
 
   render: function () {
-    return React.withContext(this.getCalendarCtx(), () => {
       var classes = this.className({
         modifiers: this.props.modifiers,
         classes: this.props.classes
@@ -89,7 +88,7 @@ var Month = React.createClass({
         this.makeWeekHeader(classes.descendant('weekdays')),
         weeks
       ]);
-    });
+
   }
 });
 

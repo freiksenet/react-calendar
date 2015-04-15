@@ -34,7 +34,6 @@ var Week = React.createClass({
   },
 
   render: function () {
-    return React.withContext(this.getCalendarCtx(), () => {
       var classes = this.className({
         modifiers: this.props.modifiers,
         classes: this.props.classes
@@ -55,7 +54,6 @@ var Week = React.createClass({
           {days}
         </div>
       ]);
-    });
   }
 });
 
