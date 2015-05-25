@@ -23,19 +23,19 @@ describe('Day component by default', function () {
     expect(day.props.date).to.equal(testMoment);
   });
 
-  it('renders with same date number from props', function () {
+  it('should render with same date number from props', function () {
     var dayFormat = day.getPropOrCtx('dayFormat')
     dayNode = day.getDOMNode();
     expect(dayNode.innerText).to.equal(testMoment.format(dayFormat));
   });
 
-  it('renders with expected className', function () {
+  it('should render with expected className', function () {
     dayNode = day.getDOMNode();
 
     expect(dayNode.className).to.include(day.className());
   });
 
-  it('renders a body as a child', function () {
+  it('should render a body as a child', function () {
     dayNode = day.getDOMNode();
 
     var childBodyNode = _.findWhere(dayNode.childNodes, function(child){
@@ -47,7 +47,7 @@ describe('Day component by default', function () {
     expect(childBodyNode.innerText).to.equal(testMoment.date().toString());
   });
 
-  it('does not render a header', function () {
+  it('should not render a header', function () {
     dayNode = day.getDOMNode();
 
     var childBodyNode = _.findWhere(dayNode.childNodes, function(child){
@@ -57,7 +57,7 @@ describe('Day component by default', function () {
     expect(childBodyNode).to.be.undefined;
   });
 
-  it('does not render an agenda', function () {
+  it('should not render an agenda', function () {
     dayNode = day.getDOMNode();
 
     var childBodyNode = _.findWhere(dayNode.childNodes, function(child){
@@ -90,7 +90,7 @@ describe('Day component with agenda, header, classes, and modifiers', function (
   });
 
 
-  it('does render an agenda', function () {
+  it('should render an agenda', function () {
     dayNode = day.getDOMNode();
 
     var childBodyNode = _.findWhere(dayNode.childNodes, function(child){
@@ -101,7 +101,7 @@ describe('Day component with agenda, header, classes, and modifiers', function (
   });
 
 
-  it('does render a header', function () {
+  it('should render a header', function () {
 
     var dayHeaderFormat = day.getPropOrCtx('dayHeaderFormat')
     dayNode = day.getDOMNode();
@@ -112,6 +112,42 @@ describe('Day component with agenda, header, classes, and modifiers', function (
 
     expect(childBodyNode).to.not.be.undefined;
     expect(childBodyNode.innerText).to.equal(testMoment.format(dayHeaderFormat));
+  });
+
+});
+
+describe('Day events handling', function () {
+
+  var testMoment = moment();
+  var clickResults = {};
+  var handleEvent = function(component, date) {
+    clickResults.component = component;
+    clickResults.date = date;
+  }
+  var day;
+
+  beforeEach(function(){
+    day = React.addons.TestUtils.renderIntoDocument(<Day
+      date={testMoment}
+      onClick={handleEvent}/>);
+  });
+
+  afterEach(function(){
+    day = null;
+    clickResults = {};
+  });
+
+
+  it('should be able to handle a click', function () {
+    var testDateFormat = 'MM/DD/YYYY';
+
+    dayNode = day.getDOMNode();
+
+    React.addons.TestUtils.Simulate.click(dayNode);
+
+    expect(clickResults.component).to.equal(day.constructor.displayName);
+    expect(clickResults.date.format(testDateFormat)).to.equal(testMoment.format(testDateFormat));
+
   });
 
 });

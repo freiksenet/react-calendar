@@ -4,16 +4,16 @@ var webpack = require('webpack');
 
 module.exports = function (config) {
   config.set({
-    browsers: [ 'PhantomJS' ], //run in Chrome
+    browsers: [ 'PhantomJS' ], //run using Phantom
     frameworks: [ 'mocha' ], //use the mocha test framework
     files: [
       'tests/phantomjs-shims.js',
       'tests.webpack.js'
     ],
     preprocessors: {
-      'tests.webpack.js': [ 'webpack'] //preprocess with webpack and our sourcemap loader
+      'tests.webpack.js': [ 'webpack'] //preprocess with webpack
     },
-    reporters: [ 'dots' ], //report results in this format
+    reporters: ['mocha'],
     webpack: { //kind of a copy of your webpack config
       module: {
         loaders: [
