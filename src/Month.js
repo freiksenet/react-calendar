@@ -31,12 +31,16 @@ var Month = React.createClass({
 
   makeHeader: function (classes) {
     if (this.getPropOrCtx('monthNames')) {
-      return (
-        <header key="header"
-                className={classes()}>
-          {this.props.date.format(this.getPropOrCtx('monthNameFormat'))}
-        </header>
-      );
+      if (this.props.makeHeader) {
+        return this.props.makeHeader(this.props.date);
+      } else {
+        return (
+          <header key="header"
+                  className={classes()}>
+            {this.props.date.format(this.getPropOrCtx('monthNameFormat'))}
+          </header>
+        );
+      }
     } else {
       return null;
     }

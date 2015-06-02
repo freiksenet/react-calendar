@@ -86,7 +86,8 @@ module.exports.types.Month = {
   monthNames: React.PropTypes.bool,
   monthNameFormat: React.PropTypes.string,
   weekdayNames: React.PropTypes.bool,
-  weekdayFormat: React.PropTypes.string
+  weekdayFormat: React.PropTypes.string,
+  makeHeader: React.PropTypes.func
 };
 
 module.exports.defaults.Month = {
