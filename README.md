@@ -1,6 +1,10 @@
 react-calendar
 --------------
 
+*NB:* This really needs big refactoring, at this stage it's a failed experiment
+on how to design third-party components for react. I have some ideas on how to
+improve/rewrite it, but it will take time, which I don't have much at the moment.
+
 Calendars for React.
 
 Not just calendar component, but a modular toolkit for building everything
