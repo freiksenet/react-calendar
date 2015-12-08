@@ -1,6 +1,6 @@
 {
   "name": "react-calendar",
-  "version": "0.5.0",
+  "version": "0.4.0",
   "author": "Mikhail <freiksenet@gmail.com> Novikov",
   "description": "Calendar component for ReactJS",
   "keywords": [
@@ -18,7 +18,8 @@
     "lodash": "^2.4.1"
   },
   "peerDependencies": {
-    "react": "^0.13.x",
+    "react": "^0.14.x",
+-   "react-dom": "^0.14.x",
     "moment": "^2.8.3"
   },
   "devDependencies": {
@@ -30,7 +31,7 @@
     "less-loader": "^0.7.7",
     "moment": "^2.8.3",
     "raw-loader": "^0.5.1",
-    "react": "^0.13.1",
+    "react": "^0.14.3",
     "react-hot-loader": "^0.4.5",
     "style-loader": "^0.8.1",
     "url-loader": "^0.5.5",
