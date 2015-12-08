@@ -19,7 +19,7 @@
   },
   "peerDependencies": {
     "react": "^0.14.x",
--   "react-dom": "^0.14.x",
+    "react-dom": "^0.14.x",
     "moment": "^2.8.3"
   },
   "devDependencies": {
