@@ -5,7 +5,7 @@ react-calendar
 on how to design third-party components for react. I have some ideas on how to
 improve/rewrite it, but it will take time, which I don't have much at the moment.
 
-Calendars for React.
+Calendars for React 0.14.3.
 
 Not just calendar component, but a modular toolkit for building everything
 related to calendars in React, such as Datepickers.
@@ -67,11 +67,11 @@ There is no style by default, but an example theme using bootstrap is included
 in less/bootstrap-theme.less.
 
 react-calendar uses SuitCSS style (a variant of BEM) to make default class hierarchy,
-if you want to add a class that is separate from that hierarchy just pass `classes` 
+if you want to add a class that is separate from that hierarchy just pass `classes`
 prop to any component. `classes` is an object with keys as class names and values as
-boolean-like values (this will be probably changed to just passing array of classes in 
+boolean-like values (this will be probably changed to just passing array of classes in
 future API). If you want to add SuitCSS modifier classes (eg `rc-Day--current`),
-pass similar object via `modifiers` prop (again this will probably become an array 
+pass similar object via `modifiers` prop (again this will probably become an array
 in next version of API).
 
 For example:

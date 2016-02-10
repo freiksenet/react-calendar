@@ -16,8 +16,6 @@ var momentOrString = function (props, propName, component) {
     return new Error(
       "Invalid prop " + propName + " passed to " + component
     );
-  } else {
-    return true;
   }
 };
 
@@ -26,8 +24,6 @@ var momentOrStringRequired = function (props, propName, component) {
     return new Error (
       propName + " is required in " + component
     );
-  } else {
-    return true;
   }
 };
 
