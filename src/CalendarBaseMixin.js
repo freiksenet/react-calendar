@@ -42,7 +42,7 @@ var CalendarBaseMixin = {
           existing.thisLevel.push(child);
         } else {
           existing.nextLevels.push(child);
-        };
+        }
         result[childDate] = existing;
       } else if (child.type === compType) {
         result.thisGlobals.push(child);

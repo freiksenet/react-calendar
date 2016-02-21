@@ -1,13 +1,13 @@
-/** @jsx React.DOM */
-"use strict";
+import moment from 'moment';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Calendar, Month, Week, Day } from './react-calendar';
 
-var moment = require('moment');
-var React = require('react');
-var {Calendar, Month, Week, Day} = require('./react-calendar');
+import Calendar2 from './src/Calendar2'
 
 require('./less/bootstrap-theme.less');
 
-var PagingCalendar = React.createClass({
+const PagingCalendar = React.createClass({
   getInitialState: function () {
     return {
       date: moment().startOf('year')
@@ -29,7 +29,7 @@ var PagingCalendar = React.createClass({
   },
 
   handleClick: function (scope, m, e) {
-    alert("handleClick: " + scope + " " + m.format());
+    alert('handleClick: ' + scope + ' ' + m.format());
   },
 
   render: function () {
@@ -41,23 +41,31 @@ var PagingCalendar = React.createClass({
         <a href="#" className="nextYear" onClick={this.handleNextYear}>
           Next Year
         </a>
-        <Calendar firstMonth={1}
+        {/* <Calendar firstMonth={1}
                   date={this.state.date}
                   weekNumbers={true}
                   size={12}>
           <Day onClick={this.handleClick} />
           <Month date={moment()}
-                 modifiers={{current: true}}
+                 modifiers={ { current: true } }
                  onClick={this.handleClick} />
           <Day date={moment()}
-               modifiers={{current: true}} />
-        </Calendar>
+               modifiers={ { current: true } } />
+        </Calendar> */}
+        <Calendar2 firstMonth={ 1 }
+                   date={ this.state.date }
+                   weekNumbers={ true }
+                   startDate={ this.state.date.clone().startOf('year') }
+                   endDate={ this.state.date.clone().endOf('year') }
+                   month={ {  } }
+                   day={ {  } }
+                   week={ {  } } />
       </div>
     );
   }
 });
 
-React.render(
+ReactDOM.render(
   <PagingCalendar />,
   document.getElementById('app')
 );

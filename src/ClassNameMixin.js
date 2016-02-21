@@ -9,7 +9,7 @@ function getActiveClasses (classNames) {
   return Object.keys(classNames).filter(function (className) {
     return classNames[className];
   });
-};
+}
 
 var ClassNamer = function (options) {
   var fn = function () {
