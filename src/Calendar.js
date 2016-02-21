@@ -1,91 +1,73 @@
-"use strict";
+import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
+import classnames from 'classnames'
 
-var _ = require('lodash');
-var React = require('react');
-var moment = require('moment');
+import Month from './Month2';
 
-var CalendarBaseMixin = require('./CalendarBaseMixin');
-var propTypes = require('./propTypes');
-var ClassNameMixin = require('./ClassNameMixin');
-var Month = React.createFactory(require('./Month'));
+export default class Calendar extends Component {
+  static propTypes = {
+    startDate: PropTypes.object.isRequired,
+    endDate: PropTypes.object.isRequired,
+    firstMonth: PropTypes.number.isRequired,
+    weekNumbers: PropTypes.bool,
+    locale: PropTypes.string,
+    month: PropTypes.array
+  };
 
-var Calendar = React.createClass({
-  mixins: [
-    CalendarBaseMixin,
-    propTypes.Mixin(false,
-      'Calendar',
-      'Year',
-      'Month',
-      'Week',
-      'Day'
-    ),
-    ClassNameMixin
-  ],
-
-  makeHeader: function (classes) {
-    if (this.getPropOrCtx('yearHeader')) {
-      return (
-        <header key="header"
-                className={classes.descendant('header')}>
-          {this.props.date.format(this.getPropOrCtx('yearHeaderFormat'))}
-        </header>
-      );
-    } else {
-      return null;
-    }
-  },
-
-  getChildContext(){
-    return this.getCalendarCtx();
-  },
-
-  getMonthRange: function () {
-    var range, left, right;
-    var focus = this.moment(this.props.date).startOf('month');
-    var size = this.getPropOrCtx('size');
-    var firstMonth = this.getPropOrCtx('firstMonth') - 1;
-
-    if (_.isNumber(firstMonth) && size === 12) {
-      var focusMonth = focus.month();
-      if (focusMonth < firstMonth) {
-        left = focusMonth + (12 - firstMonth);
-      } else {
-        left = focusMonth - firstMonth;
-      }
-      left = -left;
-      right = size + left;
-    } else if (firstMonth === 'current') {
-      left = 0;
-      right = size;
-    } else {
-      var half = size / 2;
-      left = -Math.floor(half);
-      right = Math.ceil(half);
-    }
-    return _.range(left, right).map((offset) => {
-      return focus.clone().add(offset, 'months');
-    });
-  },
-
-  render: function () {
-    var classes = this.className({
-      modifiers: this.props.modifiers,
-      classes: this.props.classes
-    });
-    var childrenMap = this.splitChildrenByDate(Month);
-    var months = this.getMonthRange().map(
-      this.makeDirectChild.bind(this, childrenMap, Month)
-    );
-
-    var props = _.assign({
-      className: classes()
-    }, this.getEventHandlers());
-
-    return React.DOM.div(props, [
-      this.makeHeader(classes),
-      months
-    ]);
+  constructor (props, context) {
+    super(props, context);
   }
-});
 
-module.exports = Calendar;
+  moment () {
+    const localMoment = moment.apply(null, arguments);
+
+    localMoment.locale(this.props.locale || 'en');
+
+    return localMoment;
+  }
+
+  renderHeader () {
+    return (
+      <header key="header"
+              className={classnames('rc-Calendar-header')}>
+        { this.moment(this.props.date).format(this.props.yearHeaderFormat || 'YYYY') }
+      </header>
+    );
+  }
+
+  getMonthRange () {
+    const focus = this.moment(this.props.date).startOf('month');
+
+    const start = this.moment(this.props.startDate);
+    const end = this.moment(this.props.endDate);
+    const size = end.diff(start, 'month') + 1;
+
+    return Array(size).fill(0).map((n, i) => {
+      return focus.clone().add(n + i, 'months');
+    });
+  }
+
+  render () {
+    const monthMods = this.props.month;
+    const dayMods = this.props.day;
+    const weekMods = this.props.week;
+
+    return (
+      <div>
+        { this.renderHeader() }
+        {
+          this.getMonthRange().map((date, i) => {
+            const mods = monthMods.find((mod) => mod.date.isSame(date, 'month', 'year'));
+
+            return <Month key={ `month-${i}` }
+                          date={ date }
+                          weekNumbers={true}
+                          mods={ mods }
+                          week={ weekMods }
+                          day={ dayMods } />
+          })
+        }
+      </div>
+    )
+  }
+}

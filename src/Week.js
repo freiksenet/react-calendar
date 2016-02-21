@@ -1,62 +1,59 @@
-"use strict";
+import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 
-var _ = require('lodash');
-var React = require('react');
+import { daysOfWeek } from './dateUtils';
+import Day from './Day2'
 
-var dateUtils = require('./dateUtils');
-var CalendarBaseMixin = require('./CalendarBaseMixin');
-var propTypes = require('./propTypes');
-var ClassNameMixin = require('./ClassNameMixin');
-var Day = React.createFactory(require('./Day'));
+const clsPrefix = 'rc-Week'
 
-var Week = React.createClass({
-  mixins: [
-    CalendarBaseMixin,
-    propTypes.Mixin(true,
-      'Week',
-      'Day'
-    ),
-    ClassNameMixin
-  ],
-
-  makeWeekNumber: function (classes) {
-    if (this.getPropOrCtx('weekNumbers')) {
-      return (
-        <div key="weekNumber"
-             className={classes.descendant('number')()}>
-          {this.props.date.format(this.getPropOrCtx('weekNumberFormat'))}
-        </div>
-      );
-    } else {
-      return null;
-    }
-  },
-  getChildContext(){
-    return this.getCalendarCtx();
-  },
-
-  render: function () {
-    var classes = this.className({
-      modifiers: this.props.modifiers,
-      classes: this.props.classes
-    });
-
-    var childrenMap = this.splitChildrenByDate(Day);
-    var days = dateUtils.daysOfWeek(this.props.date).map(
-      this.makeDirectChild.bind(this, childrenMap, Day)
-    );
-
-    var props = _.assign({
-      className: classes()
-    }, this.getEventHandlers());
-
-    return React.DOM.div(props, [
-      this.makeWeekNumber(classes),
-      <div key="days" className={classes.descendant('days')}>
-        {days}
-      </div>
-    ]);
+const makeWeekNumber = (props) => {
+  if (!props.weekNumbers) {
+    return null;
   }
-});
 
-module.exports = Week;
+  return (
+    <div key="weekNumber"
+         className={ classnames('rc-Week-number') }>
+      { props.date.format(props.weekNumberFormat) }
+    </div>
+  );
+}
+
+const Week = (props) => {
+  let clsMods;
+
+  if (props.mods && props.mods.cls) {
+    clsMods = props.mods.cls.map((cls) => `${clsPrefix}--${cls}`);
+  }
+
+  return (
+    <div key="days" className={ classnames(clsPrefix, clsMods) }>
+      { makeWeekNumber(props) }
+      <div className={ classnames(`${clsPrefix}-days`) }>
+        {
+          daysOfWeek(props.date).map((date, i) => {
+            let outside;
+
+            if (props.edges) {
+              outside = Boolean(props.edges.find((edge, j) => edge.isSame(date, 'month', 'week', 'year')));
+            }
+
+            return <Day outside={ !!outside } key={`day-${i}`} date={ date } mods={ props.day } />
+          })
+        }
+      </div>
+    </div>
+  );
+};
+
+Week.propTypes = {
+  weekNumbers: PropTypes.bool,
+  weekNumberFormat: PropTypes.string
+};
+
+Week.defaultProps = {
+  weekNumbers: false,
+  weekNumberFormat: 'w'
+};
+
+export default Week;

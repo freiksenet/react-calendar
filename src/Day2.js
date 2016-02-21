@@ -5,7 +5,12 @@ const Day2 = (props) => {
   const clsPrefix = 'rc-Day';
   const { date, mods, outside } = props;
   const handleClick = (props) => alert(props.date.format('w'));
-  const mod = mods.find((mod) => mod.date.isSame(date, 'day'));
+
+  let mod;
+
+  if (mods) {
+    mod = mods.find((mod) => mod.date.isSame(date, 'day'));
+  }
 
   let clsMods;
 
