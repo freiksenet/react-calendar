@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
 import { monthEdges, weeksOfMonth, daysOfWeek } from './dateUtils';
-import { getClsMods, getModsByCompType } from './util';
+import { getMods } from './util';
 import Week from './Week';
 import Day from './Day2';
 
@@ -36,15 +36,11 @@ const renderHeader = (props) => {
 
 const Month = (props) => {
   const { date, day, mods, week, weekNumbers } = props;
+  const { clsMods, events } = getMods(mods, date, clsPrefix, 'month');
   const edges = monthEdges(date);
 
-  const monthMods = mods.find((mod) => mod.date ? mod.date.isSame(date, 'month', 'year') : false);
-  const compEvents = mods.filter((mod) => !mod.date).events;
-
-  let clsMods = getClsMods(clsPrefix, monthMods);
-
   return (
-    <div className={ classnames(clsPrefix, clsMods) } { ...compEvents }>
+    <div className={ classnames(clsPrefix, clsMods) } { ...events }>
       { renderHeader(props) }
       { renderWeekHeader(props) }
       {

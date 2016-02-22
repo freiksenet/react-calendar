@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
+import { getMods } from './util';
 import { daysOfWeek } from './dateUtils';
-import Day from './Day2'
+import Day from './Day2';
 
-const clsPrefix = 'rc-Week'
+const clsPrefix = 'rc-Week';
 
 const makeWeekNumber = (props) => {
   if (!props.weekNumbers) {
@@ -20,14 +21,11 @@ const makeWeekNumber = (props) => {
 }
 
 const Week = (props) => {
-  let clsMods;
-
-  if (props.mods && props.mods.cls) {
-    clsMods = props.mods.cls.map((cls) => `${clsPrefix}--${cls}`);
-  }
+  const { mods, date } = props;
+  const { clsMods, events } = getMods(mods, date, clsPrefix, 'week');
 
   return (
-    <div key="days" className={ classnames(clsPrefix, clsMods) }>
+    <div key="days" className={ classnames(clsPrefix, clsMods) } { ...events }>
       { makeWeekNumber(props) }
       <div className={ classnames(`${clsPrefix}-days`) }>
         {

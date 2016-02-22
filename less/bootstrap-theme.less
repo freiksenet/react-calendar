@@ -55,6 +55,9 @@
         border-bottom: 1px solid @gray-lighter;
       }
     }
+    &--current {
+      background-color: @brand-info;
+    }
   }
   &-Day {
     .cell();
@@ -70,8 +73,14 @@
         background-color: transparent;
       }
     }
+    &--event {
+      background-color: @gray-lighter;
+    }
     &--current {
       background-color: @brand-primary;
+    }
+    &--warning {
+      background-color: @brand-warning;
     }
   }
 }

@@ -51,7 +51,25 @@ const PagingCalendar = React.createClass({
                        {
                          date: moment(),
                          classNames: [ 'current' ],
-                         component: [ 'day', 'month' ]
+                         component: [ 'day', 'month', 'week' ]
+                       },
+                       {
+                         date: moment().add(3, 'days'),
+                         classNames: [ 'event' ],
+                         component: [ 'day' ]
+                       },
+                       {
+                         date: moment().add(4, 'days'),
+                         classNames: [ 'event', 'warning' ],
+                         component: [ 'day' ],
+                         events: {
+                           onClick: (date, e) => alert(`${date.format('dddd')}'s event!`)
+                         }
+                       },
+                       {
+                         date: moment().add(5, 'days'),
+                         classNames: [ 'event' ],
+                         component: [ 'day' ]
                        },
                        {
                          component: 'day',
