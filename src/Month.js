@@ -1,97 +1,82 @@
-"use strict";
+import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 
-var _ = require('lodash');
-var React = require('react');
+import { monthEdges, weeksOfMonth, daysOfWeek } from './dateUtils';
+import { getMods } from './util';
+import Week from './Week';
+import Day from './Day';
 
-var dateUtils = require('./dateUtils');
-var CalendarBaseMixin = require('./CalendarBaseMixin');
-var propTypes = require('./propTypes');
-var ClassNameMixin = require('./ClassNameMixin');
-var Week = React.createFactory(require('./Week'));
-var Day = React.createFactory(require('./Day'));
+const clsPrefix = 'rc-Month';
 
-var Month = React.createClass({
-  mixins: [
-    CalendarBaseMixin,
-    propTypes.Mixin(true,
-      'Month',
-      'Week',
-      'Day'
-    ),
-    ClassNameMixin
-  ],
-
-  createMonthEdge: function (date, i) {
-    return Day({
-      key: 'edge-' + i,
-      date: date,
-      modifiers: {outside: true}
-    });
-  },
-
-  makeHeader: function (classes) {
-    if (this.getPropOrCtx('monthNames')) {
-      return (
-        <header key="header"
-                className={classes()}>
-          {this.props.date.format(this.getPropOrCtx('monthNameFormat'))}
-        </header>
-      );
-    } else {
-      return null;
-    }
-  },
-
-  makeWeekHeader: function (classes) {
-    if (this.getPropOrCtx('weekdayNames')) {
-      var week = dateUtils.daysOfWeek(this.props.date);
-      var weekEls = week.map((w, i) => {
-        return (
-          <div key={i}
-               className={classes.descendant('weekday')()}>
-            {w.format(this.getPropOrCtx('weekdayFormat'))}
+const renderWeekHeader = (props) => {
+  return (
+    <div className={`${clsPrefix}-weekdays`}>
+      {
+        daysOfWeek(props.date).map((weekday, i) =>
+          <div key={ `weekday-header-${i}` } className={ classnames(`${clsPrefix}-weekdays-weekday`) }>
+            { weekday.format(props.weekdayFormat) }
           </div>
-        );
-      });
-      return (
-        <header key="weekdays"
-                className={classes()}>
-          {weekEls}
-        </header>
-      );
-    } else {
-      return null;
-    }
-  },
+        )
+      }
+    </div>
+  );
+};
 
-  getChildContext(){
-    return this.getCalendarCtx();
-  },
-
-  render: function () {
-    var classes = this.className({
-      modifiers: this.props.modifiers,
-      classes: this.props.classes
-    });
-
-    var childrenMap = this.splitChildrenByDate(
-      Week,
-      dateUtils.monthEdges(this.props.date).map(this.createMonthEdge)
-    );
-    var weeks = dateUtils.weeksOfMonth(this.props.date).map(
-      this.makeDirectChild.bind(this, childrenMap, Week)
-    );
-
-    var props = _.assign({
-      className: classes()
-    }, this.getEventHandlers());
-
-    return React.DOM.div(props, [
-      this.makeHeader(classes.descendant('header')),
-      this.makeWeekHeader(classes.descendant('weekdays')),
-      weeks
-    ]);
+const renderHeader = (props) => {
+  if (!props.monthNames) {
+    return null;
   }
-});
 
-module.exports = Month;
+  return (
+    <header key="header" className={ classnames(`${clsPrefix}-header`) }>
+      { props.date.format(props.monthNameFormat) }
+    </header>
+  );
+}
+
+const Month = (props) => {
+  const { date, day, mods, week, weekNumbers } = props;
+  const modifiers = getMods(mods, date, clsPrefix, 'month');
+  const edges = monthEdges(date);
+
+  let clsMods, events;
+
+  if (modifiers) {
+    clsMods = modifiers.clsMods;
+    events = modifiers.events;
+  }
+
+  return (
+    <div className={ classnames(clsPrefix, clsMods) } { ...events }>
+      { renderHeader(props) }
+      { renderWeekHeader(props) }
+      {
+        weeksOfMonth(props.date).map((wDate, i) =>
+          <Week key={ `week-${i}` }
+                date={ wDate }
+                edges={ edges }
+                weekNumbers={ weekNumbers }
+                mods={ week }
+                day={ day } />
+        )
+      }
+    </div>
+  );
+};
+
+Month.propTypes = {
+  monthNames: PropTypes.bool,
+  monthNameFormat: PropTypes.string,
+  weekdayNames: PropTypes.bool,
+  weekdayFormat: PropTypes.string,
+  mod: PropTypes.object
+};
+
+Month.defaultProps = {
+  monthNames: true,
+  monthNameFormat: 'MMMM YYYY',
+  weekdayNames: true,
+  weekdayFormat: 'dd'
+};
+
+export default Month;
