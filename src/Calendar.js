@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import classnames from 'classnames';
-import { getModsByCompType, getComponentMod } from './util';
+import { getModsByCompType } from './util';
 
 import Month from './Month';
 

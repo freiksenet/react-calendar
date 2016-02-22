@@ -1,7 +1,3 @@
-const getClsMods = (clsPrefix, mods) =>
-  !mods || !mods.classNames ? null : mods.classNames.map((cls) => `${clsPrefix}--${cls}`);
-
-
 const bindEvents = (events, date) => {
   const boundEvents = {};
 
@@ -10,6 +6,9 @@ const bindEvents = (events, date) => {
 
   return boundEvents;
 }
+
+const getClsMods = (clsPrefix, mods) =>
+  !mods || !mods.classNames ? null : mods.classNames.map((cls) => `${clsPrefix}--${cls}`);
 
 const getModByDate = (mods, date, type) =>
   mods.find((mod) => mod.date ? mod.date.isSame(date, type) : null);

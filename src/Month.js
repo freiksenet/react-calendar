@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { monthEdges, weeksOfMonth, daysOfWeek } from './dateUtils';
 import { getMods } from './util';
 import Week from './Week';
-import Day from './Day2';
+import Day from './Day';
 
 const clsPrefix = 'rc-Month';
 
@@ -36,8 +36,15 @@ const renderHeader = (props) => {
 
 const Month = (props) => {
   const { date, day, mods, week, weekNumbers } = props;
-  const { clsMods, events } = getMods(mods, date, clsPrefix, 'month');
+  const modifiers = getMods(mods, date, clsPrefix, 'month');
   const edges = monthEdges(date);
+
+  let clsMods, events;
+
+  if (modifiers) {
+    clsMods = modifiers.clsMods;
+    events = modifiers.events;
+  }
 
   return (
     <div className={ classnames(clsPrefix, clsMods) } { ...events }>

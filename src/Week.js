@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import { getMods } from './util';
 import { daysOfWeek } from './dateUtils';
-import Day from './Day2';
+import Day from './Day';
 
 const clsPrefix = 'rc-Week';
 
@@ -14,7 +14,7 @@ const makeWeekNumber = (props) => {
 
   return (
     <div key="weekNumber"
-         className={ classnames('rc-Week-number') }>
+         className={ classnames(`${clsPrefix}-number`) }>
       { props.date.format(props.weekNumberFormat) }
     </div>
   );
@@ -22,7 +22,14 @@ const makeWeekNumber = (props) => {
 
 const Week = (props) => {
   const { mods, date } = props;
-  const { clsMods, events } = getMods(mods, date, clsPrefix, 'week');
+  const modifiers = getMods(mods, date, clsPrefix, 'week');
+
+  let clsMods, events;
+
+  if (modifiers) {
+    clsMods = modifiers.clsMods;
+    events = modifiers.events;
+  }
 
   return (
     <div key="days" className={ classnames(clsPrefix, clsMods) } { ...events }>
@@ -36,7 +43,7 @@ const Week = (props) => {
               outside = Boolean(props.edges.find((edge, j) => edge.isSame(date, 'month', 'week', 'year')));
             }
 
-            return <Day outside={ !!outside } key={`day-${i}`} date={ date } mods={ props.day } />
+            return <Day outside={ !!outside } key={ `day-${i}` } date={ date } mods={ props.day } />
           })
         }
       </div>

@@ -1,69 +1,72 @@
-"use strict";
+import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 
-var _ = require('lodash');
-var React = require('react');
+import { getMods } from './util';
 
-var propTypes = require('./propTypes');
-var ClassNameMixin = require('./ClassNameMixin');
+const clsPrefix = 'rc-Day';
 
-var Day = React.createClass({
-  mixins: [propTypes.Mixin(true,
-    'Day'
-  ), ClassNameMixin],
-
-  makeHeader: function (classes) {
-    if (this.getPropOrCtx('dayHeader')) {
-      return (
-        <header className={classes()}>
-          {this.props.date.format(this.getPropOrCtx('dayHeaderFormat'))}
-        </header>
-      );
-    } else {
-      return null;
-    }
-  },
-
-  makeBody: function (classes) {
-    return (
-      <span key="body"
-            className={classes()}>
-        {this.props.date.format(this.getPropOrCtx('dayFormat'))}
-      </span>
-    );
-  },
-
-  makeAgenda: function (classes) {
-    if (this.getPropOrCtx('dayAgenda')) {
-      return (
-        <div key="agenda"
-             className={classes()}>
-          {this.props.children}
-        </div>
-      );
-    } else {
-      return null;
-    }
-  },
-  getChildContext(){
-    return this.getCalendarCtx();
-  },
-
-  render: function () {
-    var classes = this.className({
-      modifiers: this.props.modifiers,
-      classes: this.props.classes
-    });
-
-    var props = _.assign({
-      className: classes()
-    }, this.getEventHandlers());
-
-    return React.DOM.div(props, [
-      this.makeHeader(classes.descendant('header')),
-      this.makeBody(classes.descendant('body')),
-      this.makeAgenda(classes.descendant('agenda'))
-    ]);
+const renderHeader = (props) => {
+  if (!props.dayHeader) {
+    return null;
   }
-});
 
-module.exports = Day;
+  return (
+    <header className={`${clsPrefix}-Day-header`}>
+      { props.date.format(props.dayHeaderFormat) }
+    </header>
+  );
+};
+
+const renderAgenda = (props) => {
+  if (!props.dayAgenda) {
+    return null;
+  }
+
+  return (
+    <div key="agenda"
+         className={`${clsPrefix}-Day-agenda`}>
+      { props.children }
+    </div>
+  );
+};
+
+const Day = (props) => {
+  const clsPrefix = 'rc-Day';
+  const { date, mods, outside } = props;
+  const modifiers = getMods(mods, date, clsPrefix, 'day');
+
+  let clsMods, events;
+
+  if (modifiers) {
+    clsMods = modifiers.clsMods;
+    events = modifiers.events;
+  }
+
+  const clsDay = classnames(clsPrefix, { 'rc-Day--outside': outside }, clsMods);
+
+  return (
+    <div className={ clsDay } { ...events }>
+      { renderHeader(props) }
+      { date.format(props.dayFormat) }
+      { renderAgenda(props) }
+    </div>
+  );
+};
+
+Day.propTypes = {
+  date: React.PropTypes.object.isRequired,
+  dayAgenda: React.PropTypes.bool,
+  dayHeader: React.PropTypes.bool,
+  dayHeaderFormat: React.PropTypes.string,
+  dayFormat: React.PropTypes.string,
+  mods: PropTypes.array
+};
+
+Day.defaultProps = {
+  dayAgenda: false,
+  dayHeader: false,
+  dayHeaderFormat: 'MMM Do',
+  dayFormat: 'D'
+};
+
+export default Day;
