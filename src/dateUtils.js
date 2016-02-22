@@ -1,6 +1,5 @@
 'use strict';
 
-import * as _ from 'lodash';
 import moment from 'moment';
 
 /** Returns moment objects for first day of each week of the month.
@@ -51,7 +50,6 @@ export function monthEdges (month) {
  */
 export function daysOfWeek (week) {
   week = moment(week).startOf('week');
-  return _.range(0, 7).map((day) => {
-    return week.clone().add(day, 'day');
-  });
+
+  return Array(7).fill(0).map((n, i) => week.clone().add(n + i, 'day'));
 }

@@ -3,7 +3,6 @@ module.exports = {
   Month: require('./src/Month'),
   Week: require('./src/Week'),
   Day: require('./src/Day'),
-  dateUtils: require('./src/dateUtils'),
-  Cal: require('./src/Calendar2'),
-  Mon: require('./src/Month2')
+  util: require('./src/util'),
+  dateUtils: require('./src/dateUtils')
 };

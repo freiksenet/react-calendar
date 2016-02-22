@@ -60,13 +60,6 @@ if (process.env.REACT_CALENDAR_WEBPACK === 'umd_min') {
   config.plugins = [
     new webpack.NoErrorsPlugin()
   ];
-} else {
-  config.externals.lodash = {
-    root: '_',
-    commonjs: 'lodash',
-    commonjs2: 'lodash',
-    amd: 'lodash'
-  };
 }
 
 module.exports = config;
