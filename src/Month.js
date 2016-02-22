@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
 import { monthEdges, weeksOfMonth, daysOfWeek } from './dateUtils';
-import Week from './Week2';
+import { getClsMods, getModsByCompType } from './util';
+import Week from './Week';
 import Day from './Day2';
 
 const clsPrefix = 'rc-Month';
@@ -12,7 +13,7 @@ const renderWeekHeader = (props) => {
     <div className={`${clsPrefix}-weekdays`}>
       {
         daysOfWeek(props.date).map((weekday, i) =>
-          <div key={ i } className={ classnames(`${clsPrefix}-weekdays-weekday`) }>
+          <div key={ `weekday-header-${i}` } className={ classnames(`${clsPrefix}-weekdays-weekday`) }>
             { weekday.format(props.weekdayFormat) }
           </div>
         )
@@ -27,30 +28,34 @@ const renderHeader = (props) => {
   }
 
   return (
-    <header key="header" className={ classnames('rc-Month-header') }>
+    <header key="header" className={ classnames(`${clsPrefix}-header`) }>
       { props.date.format(props.monthNameFormat) }
     </header>
   );
 }
 
 const Month = (props) => {
-  const edges = monthEdges(props.date);
-  let clsMods;
+  const { date, day, mods, week, weekNumbers } = props;
+  const edges = monthEdges(date);
 
-  if (props.mods && props.mods.cls) {
-    clsMods = props.mods.cls.map((cls) => `${clsPrefix}--${cls}`);
-  }
+  const monthMods = mods.find((mod) => mod.date ? mod.date.isSame(date, 'month', 'year') : false);
+  const compEvents = mods.filter((mod) => !mod.date).events;
+
+  let clsMods = getClsMods(clsPrefix, monthMods);
 
   return (
-    <div className={ classnames(clsPrefix, clsMods) }>
+    <div className={ classnames(clsPrefix, clsMods) } { ...compEvents }>
       { renderHeader(props) }
       { renderWeekHeader(props) }
       {
-        weeksOfMonth(props.date).map((date, i) => {
-          return (
-            <Week key={ `week-${i}` } date={ date } edges={ edges } weekNumbers={ props.weekNumbers } mods={ props.week } day={ props.day } />
-          );
-        })
+        weeksOfMonth(props.date).map((wDate, i) =>
+          <Week key={ `week-${i}` }
+                date={ wDate }
+                edges={ edges }
+                weekNumbers={ weekNumbers }
+                mods={ week }
+                day={ day } />
+        )
       }
     </div>
   );

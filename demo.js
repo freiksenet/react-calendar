@@ -2,9 +2,9 @@ import moment from 'moment';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Calendar from './src/Calendar2';
-import Week from './src/Week2';
-import Month from './src/Month2';
+import Calendar from './src/Calendar';
+import Week from './src/Week';
+import Month from './src/Month';
 
 require('./less/bootstrap-theme.less');
 
@@ -42,37 +42,25 @@ const PagingCalendar = React.createClass({
         <a href="#" className="nextYear" onClick={this.handleNextYear}>
           Next Year
         </a>
-        <Calendar firstMonth={ 1 }
-                   date={ this.state.date }
+        <Calendar  date={ this.state.date }
                    weekNumbers={ true }
                    startDate={ this.state.date }
                    endDate={ this.state.date.clone().endOf('year') }
-                   month={ [ { date: moment(), cls: ['current']  } ] }
-                   day={
-                     [
-                       {
-                         date: moment(),
-                         cls: ['current']
-                       }
-                     ]
-                   }
                    mods={
                      [
                        {
                          date: moment(),
-                         component: 'Day',
-                         classNames: [ 'current' ]
+                         classNames: [ 'current' ],
+                         component: [ 'day', 'month' ]
                        },
                        {
-                         component: 'Day',
+                         component: 'day',
                          events: {
-                           onClick: (e, date) => alert(date)
+                           onClick: (date, e) => alert(date.format())
                          }
                        }
                      ]
                    } />
-         <Week date={ this.state.date } />
-         <Month date={ this.state.date } />
       </div>
     );
   }

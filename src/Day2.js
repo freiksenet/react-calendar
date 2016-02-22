@@ -1,29 +1,35 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
-const Day2 = (props) => {
+import { getClsMods, getModsByCompType } from './util';
+
+const Day = (props) => {
   const clsPrefix = 'rc-Day';
   const { date, mods, outside } = props;
-  const handleClick = (props) => alert(props.date.format('w'));
 
   let mod;
+  let events = {};
 
   if (mods) {
-    mod = mods.find((mod) => mod.date.isSame(date, 'day'));
+    mod = mods.find((mod) => mod.date ? mod.date.isSame(date, 'day') : null);
   }
 
-  let clsMods;
+  const clsMods = getClsMods(clsPrefix, mod);
 
-  if (mod && mod.cls) {
-    clsMods = mod.cls.map((cls) => `${clsPrefix}--${cls}`);
-  }
+  mods.filter((mod) => !mod.date) // TODO: revisit this
+    .forEach((mod) =>
+      Object.keys(mod.events)
+        .forEach((key) =>
+          events[key] = mod.events[key].bind(null, date)
+        )
+      )
 
-  const cls = classnames(clsPrefix, { 'rc-Day--outside': outside }, clsMods);
+  const clsDay = classnames(clsPrefix, { 'rc-Day--outside': outside }, clsMods);
 
-  return <div className={cls} onClick={ handleClick.bind(null, props) }>{ date.format('D') }</div>
+  return <div className={ clsDay } { ...events }>{ date.format(props.dayFormat) }</div>
 };
 
-Day2.propTypes = {
+Day.propTypes = {
   date: React.PropTypes.object.isRequired,
   dayAgenda: React.PropTypes.bool,
   dayHeader: React.PropTypes.bool,
@@ -32,10 +38,11 @@ Day2.propTypes = {
   mods: PropTypes.array
 };
 
-Day2.defaultProps = {
+Day.defaultProps = {
   dayAgenda: false,
   dayHeader: false,
   dayHeaderFormat: 'MMM Do',
   dayFormat: 'D'
 };
-export default Day2;
+
+export default Day;
