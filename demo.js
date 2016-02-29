@@ -42,43 +42,42 @@ const PagingCalendar = React.createClass({
         <a href="#" className="nextYear" onClick={this.handleNextYear}>
           Next Year
         </a>
-        <Calendar  date={ this.state.date }
-                   weekNumbers={ true }
-                   startDate={ this.state.date }
-                   endDate={ this.state.date.clone().endOf('year') }
-                   mods={
-                     [
-                       {
-                         date: moment(),
-                         classNames: [ 'current' ],
-                         component: [ 'day', 'month', 'week' ]
-                       },
-                       {
-                         date: moment().add(3, 'days'),
-                         classNames: [ 'event' ],
-                         component: [ 'day' ]
-                       },
-                       {
-                         date: moment().add(4, 'days'),
-                         classNames: [ 'event', 'warning' ],
-                         component: [ 'day' ],
-                         events: {
-                           onClick: (date, e) => alert(`${date.format('dddd')}'s event!`)
-                         }
-                       },
-                       {
-                         date: moment().add(5, 'days'),
-                         classNames: [ 'event' ],
-                         component: [ 'day' ]
-                       },
-                       {
-                         component: 'day',
-                         events: {
-                           onClick: (date, e) => alert(date.format())
-                         }
-                       }
-                     ]
-                   } />
+        <Calendar weekNumbers={ true }
+                  startDate={ this.state.date }
+                  endDate={ this.state.date.clone().endOf('year') }
+                  mods={
+                    [
+                      {
+                        date: moment(),
+                        classNames: [ 'current' ],
+                        component: [ 'day', 'month', 'week' ]
+                      },
+                      {
+                        date: moment().add(3, 'days'),
+                        classNames: [ 'event' ],
+                        component: [ 'day' ]
+                      },
+                      {
+                        date: moment().add(4, 'days'),
+                        classNames: [ 'event', 'warning' ],
+                        component: [ 'day' ],
+                        events: {
+                          onClick: (date, e) => alert(`${date.format('dddd')}'s event!`)
+                        }
+                      },
+                      {
+                        date: moment().add(5, 'days'),
+                        classNames: [ 'event' ],
+                        component: [ 'day' ]
+                      },
+                      {
+                        component: 'day',
+                        events: {
+                          onClick: (date, e) => alert(date.format())
+                        }
+                      }
+                    ]
+                  } />
       </div>
     );
   }

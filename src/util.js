@@ -29,7 +29,6 @@ export const getMods = (mods, date, clsPrefix, type) => {
   const mod = getModByDate(mods, date, type);
   const clsMods = getClsMods(clsPrefix, mod) || [];
   const clsCompMods = getClsMods(clsPrefix, getModsWithoutDate(mods)) || [];
-  // TODO: clsMods that should be applied to all components
 
   getModsWithoutDate(mods)
     .forEach((mod) => Object.assign(events, bindEvents(mod.events, date)));

@@ -11,7 +11,7 @@ describe('<Month />', () => {
     wrapper = shallow(<Month date={ moment() } />);
   });
 
-  it('should render 4 weeks', () => {
-    expect(wrapper.find('Week')).to.have.length(5);
+  it('should render 4 or 5 weeks depending on the month', () => {
+    expect(wrapper.find('Week')).to.have.gte(4);
   });
 });
