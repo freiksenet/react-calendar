@@ -15,7 +15,7 @@
     "url": "https://github.com/freiksenet/react-calendar.git"
   },
   "dependencies": {
-    "lodash": "^2.4.1"
+    "classnames": "^2.2.3"
   },
   "peerDependencies": {
     "react": "^0.14.x",
@@ -23,25 +23,43 @@
     "moment": "^2.8.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-core": "^6.5.1",
+    "babel-eslint": "^4.1.8",
+    "babel-loader": "^6.2.2",
+    "babel-plugin-react-transform": "^2.0.0",
+    "babel-plugin-transform-runtime": "^6.5.0",
+    "babel-polyfill": "^6.5.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-runtime": "^6.5.0",
     "bootstrap": "~3.2.0",
-    "css-loader": "^0.9.0",
+    "chai": "^3.5.0",
+    "css-loader": "^0.23.1",
+    "enzyme": "^2.0.0",
+    "eslint-plugin-react": "^3.16.1",
     "file-loader": "^0.7.2",
+    "isparta": "^4.0.0",
     "jsx-loader": "^0.12.2",
-    "less": "^1.7.5",
-    "less-loader": "^0.7.7",
+    "less": "^2.6.0",
+    "less-loader": "^2.2.2",
+    "mocha": "^2.4.5",
     "moment": "^2.8.3",
     "raw-loader": "^0.5.1",
     "react": "^0.14.3",
-    "react-hot-loader": "^0.4.5",
-    "style-loader": "^0.8.1",
+    "react-addons-test-utils": "^0.14.7",
+    "react-hot-loader": "^1.3.0",
+    "style-loader": "^0.13.0",
     "url-loader": "^0.5.5",
     "webpack": "^1.4.3",
-    "webpack-dev-server": "^1.6.5",
-    "webpack-traceur-loader": "^0.3.0"
+    "webpack-dev-server": "^1.14.1"
   },
   "main": "./dist/react-calendar.js",
   "scripts": {
-    "clean": "rm -r build && rm -r dist",
+    "clean": "rimraf build dist",
+    "test": "npm run umd && NODE_ENV=test mocha",
+    "test:watch": "NODE_ENV=test mocha --watch",
     "prepublish": "webpack",
     "umd": "REACT_CALENDAR_WEBPACK=umd webpack",
     "umd-min": "REACT_CALENDAR_WEBPACK=umd_min webpack",

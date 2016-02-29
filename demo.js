@@ -1,13 +1,14 @@
-/** @jsx React.DOM */
-"use strict";
+import moment from 'moment';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-var moment = require('moment');
-var React = require('react');
-var {Calendar, Month, Week, Day} = require('./react-calendar');
+import Calendar from './src/Calendar';
+import Week from './src/Week';
+import Month from './src/Month';
 
 require('./less/bootstrap-theme.less');
 
-var PagingCalendar = React.createClass({
+const PagingCalendar = React.createClass({
   getInitialState: function () {
     return {
       date: moment().startOf('year')
@@ -29,7 +30,7 @@ var PagingCalendar = React.createClass({
   },
 
   handleClick: function (scope, m, e) {
-    alert("handleClick: " + scope + " " + m.format());
+    alert('handleClick: ' + scope + ' ' + m.format());
   },
 
   render: function () {
@@ -41,23 +42,49 @@ var PagingCalendar = React.createClass({
         <a href="#" className="nextYear" onClick={this.handleNextYear}>
           Next Year
         </a>
-        <Calendar firstMonth={1}
-                  date={this.state.date}
-                  weekNumbers={true}
-                  size={12}>
-          <Day onClick={this.handleClick} />
-          <Month date={moment()}
-                 modifiers={{current: true}}
-                 onClick={this.handleClick} />
-          <Day date={moment()}
-               modifiers={{current: true}} />
-        </Calendar>
+        <Calendar  date={ this.state.date }
+                   weekNumbers={ true }
+                   startDate={ this.state.date }
+                   endDate={ this.state.date.clone().endOf('year') }
+                   mods={
+                     [
+                       {
+                         date: moment(),
+                         classNames: [ 'current' ],
+                         component: [ 'day', 'month', 'week' ]
+                       },
+                       {
+                         date: moment().add(3, 'days'),
+                         classNames: [ 'event' ],
+                         component: [ 'day' ]
+                       },
+                       {
+                         date: moment().add(4, 'days'),
+                         classNames: [ 'event', 'warning' ],
+                         component: [ 'day' ],
+                         events: {
+                           onClick: (date, e) => alert(`${date.format('dddd')}'s event!`)
+                         }
+                       },
+                       {
+                         date: moment().add(5, 'days'),
+                         classNames: [ 'event' ],
+                         component: [ 'day' ]
+                       },
+                       {
+                         component: 'day',
+                         events: {
+                           onClick: (date, e) => alert(date.format())
+                         }
+                       }
+                     ]
+                   } />
       </div>
     );
   }
 });
 
-React.render(
+ReactDOM.render(
   <PagingCalendar />,
   document.getElementById('app')
 );
