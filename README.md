@@ -71,7 +71,7 @@ Events
 ------
 
 All mouse and touch events are supported on all components with react style
-onCamelCase props (eg. onClick). Event handlers recieves two arguments -
+onCamelCase props (eg. onClick). Event handlers receives two arguments -
 date in moment.js format and the original react event.
 
 Styling
@@ -91,10 +91,10 @@ in next version of API).
 For example:
 
 ```html
-<Day date={moment()} classes={{foo: true}} mods={[{bar: true}]} />
+<Day date={moment()} mods={[{bar: true}]} />
 ```
 
-will yield the following classes: `"rc-Day rc-Day--bar foo".`
+will yield the following classes: `"rc-Day rc-Day--bar".`
 
 TODO
 ----
