@@ -1,10 +1,6 @@
 react-calendar
 --------------
 
-*NB:* This really needs big refactoring, at this stage it's a failed experiment
-on how to design third-party components for react. I have some ideas on how to
-improve/rewrite it, but it will take time, which I don't have much at the moment.
-
 Calendars for React 0.14.3.
 
 Not just calendar component, but a modular toolkit for building everything
@@ -23,15 +19,21 @@ npm run
 One year calendar ([Demo](http://freiksenet.github.io/react-calendar/)):
 
 ```html
-<Calendar firstMonth={1}                <!-- Base calendar compoment -->
-          date={moment("2014-01-01")}
+<Calendar startDate={ moment() }
+          endDate={ moment().endOf('year') } <!-- Base calendar compoment -->
           weekNumbers={true}
-          size={12}>
-  <Month date={moment()}                <!-- Pass subcomponents to mark -->
-         modifiers={{current: true}}/>  <!-- current month and day -->
-  <Day date={moment()}
-       modifiers={{current: true}} />
-</Calendar>
+          size={12}
+          mods={
+            [                           <!-- Pass modifier objects to change rendering -->
+              {
+                date: moment(),
+                classNames: [ 'current' ],
+                component: [ 'day', 'month', 'week' ] <!-- This shows the current day, week, and month. -->
+              }
+            ]
+          }
+
+          />
 ```
 
 Each component can be used separately AND passed to other components to modify
@@ -41,7 +43,7 @@ rendering.
 <Month date={moment()} />
 ```
 
-If component is passed without date it modifies *all* components of this type in
+If a modifier is passed without date it modifies *all* components of this type in
 the tree. Useful, for example, for passing callbacks.
 
 ```html
@@ -49,16 +51,28 @@ the tree. Useful, for example, for passing callbacks.
           date={moment("2014-01-01")}
           weekNumbers={true}
           size={12}>
-  <Day onClick={handleClick} />
-</Calendar>
+          tartDate={ moment() }
+                    endDate={ moment().endOf('year') } <!-- Base calendar compoment -->
+                    weekNumbers={true}
+                    size={12}
+                    mods={
+                      [
+                        {
+                          component: [ 'day' ],
+                          events: {
+                            onClick: (date) => alert(date)
+                          }
+                        }
+                      ]
+                    } />
 ```
 
 Events
 ------
 
 All mouse and touch events are supported on all components with react style
-onCamelCase props (eg. onClick). Event handlers recieves three arguments -
-name of the component, date in moment.js format and the original react event.
+onCamelCase props (eg. onClick). Event handlers receives two arguments -
+date in moment.js format and the original react event.
 
 Styling
 -------
@@ -77,10 +91,10 @@ in next version of API).
 For example:
 
 ```html
-<Day date={moment()} classes={{foo: true}} modifiers={{bar: true}} />
+<Day date={moment()} mods={[{bar: true}]} />
 ```
 
-will yield the following classes: `"rc-Day rc-Day--bar foo".`
+will yield the following classes: `"rc-Day rc-Day--bar".`
 
 TODO
 ----
