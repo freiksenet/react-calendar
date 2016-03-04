@@ -53,21 +53,24 @@ export default class Calendar extends Component {
   render () {
     const { mods } = this.props;
     const monthMods = getModsByCompType('month', mods);
-    const weekMods = getModsByCompType('week', mods);
-    const dayMods = getModsByCompType('day', mods);
+    let weekMods = getModsByCompType('week', mods);
+    let dayMods = getModsByCompType('day', mods);
 
     return (
       <div>
         { this.renderHeader() }
         {
-          this.getMonthRange().map((date, i) =>
-            <Month key={ `month-${i}` }
+          this.getMonthRange().map((date, i) => {
+            let fWeekMods = weekMods.filter((mod, j) => mod.date ? mod.date.get('month') === i : true);
+            let fDayMods = dayMods.filter((mod, k) => mod.date ? mod.date.get('month') === i : true);
+
+            return <Month key={ `month-${i}` }
                    date={ date }
-                   weekNumbers={ true }
+                   weekNumbers={ this.props.weekNumbers }
                    mods={ monthMods }
-                   week={ weekMods }
-                   day={ dayMods } />
-          )
+                   week={ fWeekMods }
+                   day={ fDayMods } />
+          })
         }
       </div>
     );
