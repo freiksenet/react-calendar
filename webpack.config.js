@@ -13,10 +13,10 @@ var config = {
       {
         test: /\.js$/,
         loader: 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0',
-        exclude: [ /node_modules/, /.less$/ ]
+        exclude: [ /node_modules/, /.less$/, 'demo.js' ]
       },
       // For sample theme
-      { test: /\.less$/, loader: 'style-loader!raw-loader!less-loader' },
+      { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
       { test: /\.css/, loader: 'style-loader!css-loader' },
       { test: /\.woff$/, loader: 'file-loader' },
       { test: /\.ttf$/, loader: 'file-loader' },
@@ -42,9 +42,13 @@ if (process.env.REACT_CALENDAR_WEBPACK === 'umd_min') {
   ];
   config.output.path = 'build';
   config.output.filename = config.output.filename.replace(/\.js$/, '.min.js');
-} else if (process.env.REACT_CALENDAR_WEBPACK === 'umd') {
+}
+
+if (process.env.REACT_CALENDAR_WEBPACK === 'umd') {
   config.output.path = 'build';
-} else if (process.env.REACT_CALENDAR_WEBPACK === 'server') {
+}
+
+if (process.env.REACT_CALENDAR_WEBPACK === 'server') {
   config.module.loaders = [
     {
       test: /\.js$/,
