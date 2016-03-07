@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("lodash"), require("react"), require("moment"));
+		module.exports = factory(require("react"), require("moment"));
 	else if(typeof define === 'function' && define.amd)
-		define(["lodash", "react", "moment"], factory);
+		define(["react", "moment"], factory);
 	else if(typeof exports === 'object')
-		exports["ReactCalendar"] = factory(require("lodash"), require("react"), require("moment"));
+		exports["ReactCalendar"] = factory(require("react"), require("moment"));
 	else
-		root["ReactCalendar"] = factory(root["_"], root["React"], root["moment"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__) {
+		root["ReactCalendar"] = factory(root["React"], root["moment"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -54,99 +54,196 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	module.exports = {
-	  Calendar: __webpack_require__(1),
-	  Month: __webpack_require__(8),
-	  Week: __webpack_require__(10),
-	  Day: __webpack_require__(11),
-	  dateUtils: __webpack_require__(9)
-	};
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _Calendar = __webpack_require__(1);
+
+	Object.defineProperty(exports, 'Calendar', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_Calendar).default;
+	  }
+	});
+
+	var _Month = __webpack_require__(6);
+
+	Object.defineProperty(exports, 'Month', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_Month).default;
+	  }
+	});
+
+	var _Week = __webpack_require__(8);
+
+	Object.defineProperty(exports, 'Week', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_Week).default;
+	  }
+	});
+
+	var _Day = __webpack_require__(9);
+
+	Object.defineProperty(exports, 'Day', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_Day).default;
+	  }
+	});
+
+	var _util = __webpack_require__(5);
+
+	Object.defineProperty(exports, 'util', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_util).default;
+	  }
+	});
+
+	var _dateUtils = __webpack_require__(7);
+
+	Object.defineProperty(exports, 'dateUtils', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_dateUtils).default;
+	  }
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var _ = __webpack_require__(2);
-	var React = __webpack_require__(3);
-	var moment = __webpack_require__(4);
-
-	var CalendarBaseMixin = __webpack_require__(5);
-	var propTypes = __webpack_require__(6);
-	var ClassNameMixin = __webpack_require__(7);
-	var Month = React.createFactory(__webpack_require__(8));
-
-	var Calendar = React.createClass({
-	  displayName: 'Calendar',
-
-	  mixins: [CalendarBaseMixin, propTypes.Mixin(false, 'Calendar', 'Year', 'Month', 'Week', 'Day'), ClassNameMixin],
-
-	  makeHeader: function makeHeader(classes) {
-	    if (this.getPropOrCtx('yearHeader')) {
-	      return React.createElement(
-	        'header',
-	        { key: 'header',
-	          className: classes.descendant('header') },
-	        this.props.date.format(this.getPropOrCtx('yearHeaderFormat'))
-	      );
-	    } else {
-	      return null;
-	    }
-	  },
-
-	  getChildContext: function getChildContext() {
-	    return this.getCalendarCtx();
-	  },
-
-
-	  getMonthRange: function getMonthRange() {
-	    var range, left, right;
-	    var focus = this.moment(this.props.date).startOf('month');
-	    var size = this.getPropOrCtx('size');
-	    var firstMonth = this.getPropOrCtx('firstMonth') - 1;
-
-	    if (_.isNumber(firstMonth) && size === 12) {
-	      var focusMonth = focus.month();
-	      if (focusMonth < firstMonth) {
-	        left = focusMonth + (12 - firstMonth);
-	      } else {
-	        left = focusMonth - firstMonth;
-	      }
-	      left = -left;
-	      right = size + left;
-	    } else if (firstMonth === 'current') {
-	      left = 0;
-	      right = size;
-	    } else {
-	      var half = size / 2;
-	      left = -Math.floor(half);
-	      right = Math.ceil(half);
-	    }
-	    return _.range(left, right).map(function (offset) {
-	      return focus.clone().add(offset, 'months');
-	    });
-	  },
-
-	  render: function render() {
-	    var classes = this.className({
-	      modifiers: this.props.modifiers,
-	      classes: this.props.classes
-	    });
-	    var childrenMap = this.splitChildrenByDate(Month);
-	    var months = this.getMonthRange().map(this.makeDirectChild.bind(this, childrenMap, Month));
-
-	    var props = _.assign({
-	      className: classes()
-	    }, this.getEventHandlers());
-
-	    return React.DOM.div(props, [this.makeHeader(classes), months]);
-	  }
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
 
-	module.exports = Calendar;
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _moment2 = __webpack_require__(3);
+
+	var _moment3 = _interopRequireDefault(_moment2);
+
+	var _classnames = __webpack_require__(4);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _util = __webpack_require__(5);
+
+	var _Month = __webpack_require__(6);
+
+	var _Month2 = _interopRequireDefault(_Month);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Calendar = function (_Component) {
+	  _inherits(Calendar, _Component);
+
+	  function Calendar(props, context) {
+	    _classCallCheck(this, Calendar);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Calendar).call(this, props, context));
+	  }
+
+	  _createClass(Calendar, [{
+	    key: 'moment',
+	    value: function moment() {
+	      var localMoment = _moment3.default.apply(null, arguments);
+
+	      localMoment.locale(this.props.locale);
+
+	      return localMoment;
+	    }
+	  }, {
+	    key: 'renderHeader',
+	    value: function renderHeader() {
+	      return _react2.default.createElement(
+	        'header',
+	        { key: 'header',
+	          className: (0, _classnames2.default)('rc-Calendar-header') },
+	        this.moment(this.props.date).format(this.props.yearHeaderFormat)
+	      );
+	    }
+	  }, {
+	    key: 'getMonthRange',
+	    value: function getMonthRange() {
+	      var focus = this.moment(this.props.date).startOf('month');
+	      var start = this.moment(this.props.startDate);
+	      var end = this.moment(this.props.endDate);
+	      var size = end.diff(start, 'month') + 1;
+
+	      return Array(size).fill(0).map(function (n, i) {
+	        return focus.clone().add(n + i, 'months');
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var mods = this.props.mods;
+
+	      var monthMods = (0, _util.getModsByCompType)('month', mods);
+	      var weekMods = (0, _util.getModsByCompType)('week', mods);
+	      var dayMods = (0, _util.getModsByCompType)('day', mods);
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.renderHeader(),
+	        this.getMonthRange().map(function (date, i) {
+	          var fWeekMods = weekMods.filter(function (mod, j) {
+	            return mod.date ? mod.date.get('month') === i : true;
+	          });
+	          var fDayMods = dayMods.filter(function (mod, k) {
+	            return mod.date ? mod.date.get('month') === i : true;
+	          });
+
+	          return _react2.default.createElement(_Month2.default, { key: 'month-' + i,
+	            date: date,
+	            weekNumbers: _this2.props.weekNumbers,
+	            mods: monthMods,
+	            week: fWeekMods,
+	            day: fDayMods });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return Calendar;
+	}(_react.Component);
+
+	Calendar.propTypes = {
+	  startDate: _react.PropTypes.object.isRequired,
+	  endDate: _react.PropTypes.object.isRequired,
+	  weekNumbers: _react.PropTypes.bool,
+	  locale: _react.PropTypes.string,
+	  month: _react.PropTypes.array,
+	  yearHeaderFormat: _react.PropTypes.string
+	};
+	Calendar.defaultProps = {
+	  locale: 'en',
+	  yearHeaderFormat: 'YYYY'
+	};
+	exports.default = Calendar;
 
 /***/ },
 /* 2 */
@@ -162,501 +259,242 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+
+	(function () {
+		'use strict';
+
+		var hasOwn = {}.hasOwnProperty;
+
+		function classNames () {
+			var classes = [];
+
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+
+				var argType = typeof arg;
+
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+
+			return classes.join(' ');
+		}
+
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
 
-	var _ = __webpack_require__(2);
-	var React = __webpack_require__(3);
-	var _moment = __webpack_require__(4);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var dateToComponentMap = {
-	  Month: 'YYYY-MM',
-	  Week: 'gggg-ww',
-	  Day: 'YYYY-DDDD'
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	var bindEvents = function bindEvents(events, date) {
+	  var boundEvents = {};
+
+	  Object.keys(events).forEach(function (key) {
+	    return boundEvents[key] = events[key].bind(null, date);
+	  });
+
+	  return boundEvents;
 	};
 
-	var CalendarBaseMixin = {
-	  moment: function moment() {
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
+	var getClsMods = function getClsMods(clsPrefix, mods) {
+	  return !mods || !mods.classNames ? null : mods.classNames.map(function (cls) {
+	    return clsPrefix + "--" + cls;
+	  });
+	};
 
-	    var localMoment = _moment.apply(this, args);
-	    localMoment.locale(this.getPropOrCtx('locale'));
-	    return localMoment;
-	  },
+	var getModByDate = function getModByDate(mods, date, type) {
+	  return mods.find(function (mod) {
+	    return mod.date ? mod.date.isSame(date, type) : null;
+	  });
+	};
 
-	  splitChildrenByDate: function splitChildrenByDate(comp, children) {
-	    var compType = comp().type;
-	    if (!children) {
-	      children = [];
-	    }
-	    React.Children.forEach(this.props.children, function (child) {
-	      children.push(child);
-	    });
+	var getModsWithoutDate = function getModsWithoutDate(mods) {
+	  return mods.filter(function (mod) {
+	    return !mod.date;
+	  });
+	};
 
-	    var result = {
-	      thisGlobals: [],
-	      nextGlobals: []
-	    };
-	    var dateString = dateToComponentMap[compType.displayName];
-	    children.forEach(function (child) {
-	      if (child.props.date) {
-	        var childDate = child.props.date.format(dateString);
-	        var existing = result[childDate] || {
-	          thisLevel: [],
-	          nextLevels: []
-	        };
-	        if (child.type === compType) {
-	          existing.thisLevel.push(child);
-	        } else {
-	          existing.nextLevels.push(child);
-	        }
-	        result[childDate] = existing;
-	      } else if (child.type === compType) {
-	        result.thisGlobals.push(child);
-	      } else {
-	        result.nextGlobals.push(child);
-	      }
-	    });
+	var getModsByCompType = exports.getModsByCompType = function getModsByCompType(componentType, mods) {
+	  return mods.filter(function (_ref) {
+	    var component = _ref.component;
+	    return component.indexOf(componentType.toLowerCase()) > -1;
+	  });
+	};
 
-	    return result;
-	  },
-
-	  makeDirectChild: function makeDirectChild(childrenMap, comp, date, key) {
-	    var dateString = date.format(dateToComponentMap[comp().type.displayName]);
-	    var props = {
-	      key: key,
-	      date: date
-	    };
-
-	    var thisChildren = childrenMap[dateString] || {};
-	    var thisLevel = childrenMap.thisGlobals.concat(thisChildren.thisLevel || []);
-	    var children = childrenMap.nextGlobals.concat(thisChildren.nextLevels || []);
-
-	    thisLevel.forEach(function (child) {
-	      React.Children.forEach(child.props.children, function (childChild) {
-	        children.push(childChild);
-	      });
-	      var mergedProps = ['modifiers', 'classes'].reduce(function (merged, propKey) {
-	        if (props.hasOwnProperty(propKey) && child.props.hasOwnProperty(propKey)) {
-	          merged[propKey] = _.assign({}, props[propKey], child.props[propKey]);
-	        }
-	        return merged;
-	      }, {});
-	      props = _.assign({}, child.props, props, mergedProps);
-	    });
-
-	    return comp(props, children);
+	var getMods = exports.getMods = function getMods(mods, date, clsPrefix, type) {
+	  if (!mods) {
+	    return null;
 	  }
-	};
 
-	module.exports = CalendarBaseMixin;
+	  var events = {};
+
+	  var mod = getModByDate(mods, date, type);
+	  var clsMods = getClsMods(clsPrefix, mod) || [];
+	  var clsCompMods = getClsMods(clsPrefix, getModsWithoutDate(mods)) || [];
+
+	  getModsWithoutDate(mods).forEach(function (mod) {
+	    return Object.assign(events, bindEvents(mod.events, date));
+	  });
+
+	  if (mod && mod.events) {
+	    Object.assign(events, bindEvents(mod.events, date));
+	  }
+
+	  return { clsMods: [].concat(_toConsumableArray(clsMods), _toConsumableArray(clsCompMods)), events: events };
+	};
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var _ = __webpack_require__(2);
-	var React = __webpack_require__(3);
-	var moment = __webpack_require__(4);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var momentOrString = function momentOrString(props, propName, component) {
-	  var prop = props[propName];
-	  var valid = prop === undefined || moment.isMoment(prop) || prop instanceof Date || prop instanceof String;
-	  if (!valid) {
-	    return new Error("Invalid prop " + propName + " passed to " + component);
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _classnames = __webpack_require__(4);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _dateUtils = __webpack_require__(7);
+
+	var _util = __webpack_require__(5);
+
+	var _Week = __webpack_require__(8);
+
+	var _Week2 = _interopRequireDefault(_Week);
+
+	var _Day = __webpack_require__(9);
+
+	var _Day2 = _interopRequireDefault(_Day);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var clsPrefix = 'rc-Month';
+
+	var renderWeekHeader = function renderWeekHeader(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: clsPrefix + '-weekdays' },
+	    (0, _dateUtils.daysOfWeek)(props.date).map(function (weekday, i) {
+	      return _react2.default.createElement(
+	        'div',
+	        { key: 'weekday-header-' + i, className: (0, _classnames2.default)(clsPrefix + '-weekdays-weekday') },
+	        weekday.format(props.weekdayFormat)
+	      );
+	    })
+	  );
+	};
+
+	var renderHeader = function renderHeader(props) {
+	  if (!props.monthNames) {
+	    return null;
 	  }
+
+	  return _react2.default.createElement(
+	    'header',
+	    { key: 'header', className: (0, _classnames2.default)(clsPrefix + '-header') },
+	    props.date.format(props.monthNameFormat)
+	  );
 	};
 
-	var momentOrStringRequired = function momentOrStringRequired(props, propName, component) {
-	  if (props[propName] === undefined) {
-	    return new Error(propName + " is required in " + component);
+	var Month = function Month(props) {
+	  var date = props.date;
+	  var day = props.day;
+	  var mods = props.mods;
+	  var week = props.week;
+	  var weekNumbers = props.weekNumbers;
+
+	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'month');
+	  var edges = (0, _dateUtils.monthEdges)(date);
+
+	  var clsMods = undefined,
+	      events = undefined;
+
+	  if (modifiers) {
+	    clsMods = modifiers.clsMods;
+	    events = modifiers.events;
 	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    _extends({ className: (0, _classnames2.default)(clsPrefix, clsMods) }, events),
+	    renderHeader(props),
+	    renderWeekHeader(props),
+	    (0, _dateUtils.weeksOfMonth)(props.date).map(function (wDate, i) {
+	      return _react2.default.createElement(_Week2.default, { key: 'week-' + i,
+	        date: wDate,
+	        edges: edges,
+	        weekNumbers: weekNumbers,
+	        mods: week,
+	        day: day });
+	    })
+	  );
 	};
 
-	module.exports = {
-	  types: {},
-	  defaults: {}
+	Month.propTypes = {
+	  monthNames: _react.PropTypes.bool,
+	  monthNameFormat: _react.PropTypes.string,
+	  weekdayNames: _react.PropTypes.bool,
+	  weekdayFormat: _react.PropTypes.string,
+	  mod: _react.PropTypes.object
 	};
 
-	module.exports.types.Generic = {
-	  classNamespace: React.PropTypes.string,
-	  classNameOptions: React.PropTypes.object,
-	  locale: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)]),
-	  modifiers: React.PropTypes.object,
-	  classes: React.PropTypes.object,
-	  moment: React.PropTypes.instanceOf(moment),
-	  date: momentOrStringRequired
-	};
-
-	module.exports.defaults.Generic = {
-	  classNamespace: 'rc',
-	  locale: 'en',
-	  modifiers: {},
-	  classes: {}
-	};
-
-	module.exports.types.Calendar = {
-	  minDate: momentOrString,
-	  maxDate: momentOrString,
-	  size: React.PropTypes.number,
-	  firstMonth: React.PropTypes.oneOf(['center', 'current', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
-	};
-
-	module.exports.defaults.Calendar = {
-	  size: 12,
-	  firstMonth: 'center'
-	};
-
-	module.exports.types.Year = {
-	  yearHeader: React.PropTypes.bool,
-	  yearHeaderFormat: React.PropTypes.string
-	};
-
-	module.exports.defaults.Year = {
-	  yearHeader: true,
-	  yearHeaderFormat: 'YYYY'
-	};
-
-	module.exports.types.Month = {
-	  monthNames: React.PropTypes.bool,
-	  monthNameFormat: React.PropTypes.string,
-	  weekdayNames: React.PropTypes.bool,
-	  weekdayFormat: React.PropTypes.string
-	};
-
-	module.exports.defaults.Month = {
+	Month.defaultProps = {
 	  monthNames: true,
 	  monthNameFormat: 'MMMM YYYY',
 	  weekdayNames: true,
 	  weekdayFormat: 'dd'
 	};
 
-	module.exports.types.Week = {
-	  weekNumbers: React.PropTypes.bool,
-	  weekNumberFormat: React.PropTypes.string
-	};
-
-	module.exports.defaults.Week = {
-	  weekNumbers: false,
-	  weekNumberFormat: 'w'
-	};
-
-	module.exports.types.Day = {
-	  dayAgenda: React.PropTypes.bool,
-	  dayHeader: React.PropTypes.bool,
-	  dayHeaderFormat: React.PropTypes.string,
-	  dayFormat: React.PropTypes.string
-	};
-
-	module.exports.defaults.Day = {
-	  dayAgenda: false,
-	  dayHeader: false,
-	  dayHeaderFormat: 'MMM Do',
-	  dayFormat: 'D'
-	};
-
-	var eventList = ['onClick', 'onDoubleClick', 'onDrag', 'onDragEnd', 'onDragEnter', 'onDragExit', 'onDragLeave', 'onDragOver', 'onDragStart', 'onDrop', 'onMouseDown', 'onMouseEnter', 'onMouseLeave', 'onMouseMove', 'onMouseOut', 'onMouseOver', 'onMouseUp', 'onTouchCancel', 'onTouchEnd', 'onTouchMove', 'onTouchStart'];
-
-	['Day', 'Week', 'Month', 'Year'].forEach(function (item) {
-	  eventList.forEach(function (event) {
-	    module.exports.types[item][event] = React.PropTypes.func;
-	  });
-	});
-
-	module.exports.Mixin = function (addContext) {
-	  for (var _len = arguments.length, types = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	    types[_key - 1] = arguments[_key];
-	  }
-
-	  types.unshift('Generic');
-	  var propTypes = {};
-	  var defaultProps = {};
-
-	  types.forEach(function (type) {
-	    _.assign(propTypes, module.exports.types[type]);
-	    _.assign(defaultProps, module.exports.defaults[type]);
-	  });
-
-	  var result = {
-	    propTypes: propTypes,
-	    childContextTypes: propTypes
-	  };
-
-	  if (addContext) {
-	    result.contextTypes = propTypes;
-	  }
-
-	  result.getPropOrCtx = function (val) {
-	    if (this.props[val] !== undefined) {
-	      return this.props[val];
-	    } else if (this.context[val] !== undefined) {
-	      return this.context[val];
-	    } else {
-	      return defaultProps[val];
-	    }
-	  };
-
-	  result.getCalendarCtx = function () {
-	    return _.pick(this.props, _.keys(propTypes));
-	  };
-
-	  result.getEventHandlers = function () {
-	    var _this = this;
-
-	    return _.mapValues(_.pick(this.props, function (value, key) {
-	      return _.contains(eventList, key);
-	    }), function (cb) {
-	      return cb.bind(null, _this.constructor.displayName, _this.props.date.clone());
-	    });
-	  };
-
-	  return result;
-	};
+	exports.default = Month;
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _ = __webpack_require__(2);
-	var React = __webpack_require__(3);
-
-	function nonEmptyString(str) {
-	  return _.isString(str) && str.length > 0;
-	}
-
-	function getActiveClasses(classNames) {
-	  return Object.keys(classNames).filter(function (className) {
-	    return classNames[className];
-	  });
-	}
-
-	var ClassNamer = function ClassNamer(options) {
-	  var fn = function fn() {
-	    return fn.toString();
-	  };
-
-	  fn.options = _.defaults(options, {
-	    namespace: '',
-	    parents: [],
-	    className: '',
-	    modifiers: {},
-	    classes: {},
-	    namespaceSeparator: '-',
-	    descendantSeparator: '-',
-	    modifierSeparator: '--'
-	  });
-
-	  fn.prototype = Object.create(Function.prototype);
-	  _.mixin(fn, ClassNamer.prototype);
-
-	  return fn;
-	};
-
-	ClassNamer.prototype.getBaseClass = function () {
-	  if (!nonEmptyString(this.options.className)) {
-	    return '';
-	  };
-
-	  var classNames = [];
-	  if (nonEmptyString(this.options.namespace)) {
-	    classNames.push(this.options.namespace);
-	  }
-
-	  if (this.options.parents.length > 0) {
-	    classNames.push(this.options.parents[0]);
-	    classNames = [classNames.join(this.options.namespaceSeparator)];
-	    classNames = classNames.concat(this.options.parents.slice(1));
-	  }
-
-	  classNames.push(this.options.className);
-
-	  return classNames.join(this.options.descendantSeparator);
-	};
-
-	ClassNamer.prototype.getModifierClasses = function () {
-	  var _this = this;
-
-	  var baseClass = this.getBaseClass();
-	  var modifiers = getActiveClasses(this.options.modifiers);
-
-	  if (nonEmptyString(baseClass)) {
-	    return modifiers.map(function (modifier) {
-	      return [baseClass, modifier].join(_this.options.modifierSeparator);
-	    });
-	  } else {
-	    return modifiers;
-	  }
-	};
-
-	ClassNamer.prototype.getOtherClasses = function () {
-	  return getActiveClasses(this.options.classes);
-	};
-
-	ClassNamer.prototype.getAllClasses = function () {
-	  return Array.prototype.concat([this.getBaseClass()], this.getModifierClasses(), this.getOtherClasses());
-	};
-
-	ClassNamer.prototype.descendant = function (descendant, modifiers, classes) {
-	  if (!_.isArray(descendant)) {
-	    descendant = [descendant];
-	  }
-	  var options = _.assign({}, this.options, {
-	    parents: Array.prototype.concat(this.options.parents, nonEmptyString(this.options.className) ? [this.options.className] : [], descendant.slice(0, -1)),
-	    className: descendant.slice(-1)[0],
-	    modifiers: modifiers,
-	    classes: classes
-	  });
-
-	  return new ClassNamer(options);
-	};
-
-	ClassNamer.prototype.descendants = function () {
-	  for (var _len = arguments.length, descendants = Array(_len), _key = 0; _key < _len; _key++) {
-	    descendants[_key] = arguments[_key];
-	  }
-
-	  return this.descendant(descendants, {}, {});
-	};
-
-	ClassNamer.prototype.toString = function () {
-	  return this.getAllClasses().join(' ');
-	};
-
-	var ClassNameMixin = {
-	  propTypes: {
-	    classNamespace: React.PropTypes.string,
-	    className: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)),
-	    classNameOptions: React.PropTypes.object
-	  },
-
-	  contextTypes: {
-	    classNamespace: React.PropTypes.string,
-	    classNameOptions: React.PropTypes.object
-	  },
-
-	  getNamespace: function getNamespace() {
-	    return this.getPropOrCtx('classNamespace');
-	  },
-
-	  getClassNameOptions: function getClassNameOptions() {
-	    return this.getPropOrCtx('classNameOptions');
-	  },
-
-	  className: function className(options) {
-	    return new ClassNamer(_.assign({
-	      namespace: this.getNamespace(),
-	      className: this.props.className || this.constructor.displayName
-	    }, this.getClassNameOptions(), options));
-	  }
-	};
-
-	module.exports = ClassNameMixin;
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _ = __webpack_require__(2);
-	var React = __webpack_require__(3);
-
-	var dateUtils = __webpack_require__(9);
-	var CalendarBaseMixin = __webpack_require__(5);
-	var propTypes = __webpack_require__(6);
-	var ClassNameMixin = __webpack_require__(7);
-	var Week = React.createFactory(__webpack_require__(10));
-	var Day = React.createFactory(__webpack_require__(11));
-
-	var Month = React.createClass({
-	  displayName: 'Month',
-
-	  mixins: [CalendarBaseMixin, propTypes.Mixin(true, 'Month', 'Week', 'Day'), ClassNameMixin],
-
-	  createMonthEdge: function createMonthEdge(date, i) {
-	    return Day({
-	      key: 'edge-' + i,
-	      date: date,
-	      modifiers: { outside: true }
-	    });
-	  },
-
-	  makeHeader: function makeHeader(classes) {
-	    if (this.getPropOrCtx('monthNames')) {
-	      return React.createElement(
-	        'header',
-	        { key: 'header',
-	          className: classes() },
-	        this.props.date.format(this.getPropOrCtx('monthNameFormat'))
-	      );
-	    } else {
-	      return null;
-	    }
-	  },
-
-	  makeWeekHeader: function makeWeekHeader(classes) {
-	    var _this = this;
-
-	    if (this.getPropOrCtx('weekdayNames')) {
-	      var week = dateUtils.daysOfWeek(this.props.date);
-	      var weekEls = week.map(function (w, i) {
-	        return React.createElement(
-	          'div',
-	          { key: i,
-	            className: classes.descendant('weekday')() },
-	          w.format(_this.getPropOrCtx('weekdayFormat'))
-	        );
-	      });
-	      return React.createElement(
-	        'header',
-	        { key: 'weekdays',
-	          className: classes() },
-	        weekEls
-	      );
-	    } else {
-	      return null;
-	    }
-	  },
-
-	  getChildContext: function getChildContext() {
-	    return this.getCalendarCtx();
-	  },
-
-
-	  render: function render() {
-	    var classes = this.className({
-	      modifiers: this.props.modifiers,
-	      classes: this.props.classes
-	    });
-
-	    var childrenMap = this.splitChildrenByDate(Week, dateUtils.monthEdges(this.props.date).map(this.createMonthEdge));
-	    var weeks = dateUtils.weeksOfMonth(this.props.date).map(this.makeDirectChild.bind(this, childrenMap, Week));
-
-	    var props = _.assign({
-	      className: classes()
-	    }, this.getEventHandlers());
-
-	    return React.DOM.div(props, [this.makeHeader(classes.descendant('header')), this.makeWeekHeader(classes.descendant('weekdays')), weeks]);
-	  }
-	});
-
-	module.exports = Month;
-
-/***/ },
-/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -668,17 +506,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.monthEdges = monthEdges;
 	exports.daysOfWeek = daysOfWeek;
 
-	var _lodash = __webpack_require__(2);
-
-	var _ = _interopRequireWildcard(_lodash);
-
-	var _moment = __webpack_require__(4);
+	var _moment = __webpack_require__(3);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	/** Returns moment objects for first day of each week of the month.
 	 *  Can return moments from previous month if week start is in them.
@@ -728,141 +560,200 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function daysOfWeek(week) {
 	  week = (0, _moment2.default)(week).startOf('week');
-	  return _.range(0, 7).map(function (day) {
-	    return week.clone().add(day, 'day');
+
+	  return Array(7).fill(0).map(function (n, i) {
+	    return week.clone().add(n + i, 'day');
 	  });
 	}
 
 /***/ },
-/* 10 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var _ = __webpack_require__(2);
-	var React = __webpack_require__(3);
-
-	var dateUtils = __webpack_require__(9);
-	var CalendarBaseMixin = __webpack_require__(5);
-	var propTypes = __webpack_require__(6);
-	var ClassNameMixin = __webpack_require__(7);
-	var Day = React.createFactory(__webpack_require__(11));
-
-	var Week = React.createClass({
-	  displayName: 'Week',
-
-	  mixins: [CalendarBaseMixin, propTypes.Mixin(true, 'Week', 'Day'), ClassNameMixin],
-
-	  makeWeekNumber: function makeWeekNumber(classes) {
-	    if (this.getPropOrCtx('weekNumbers')) {
-	      return React.createElement(
-	        'div',
-	        { key: 'weekNumber',
-	          className: classes.descendant('number')() },
-	        this.props.date.format(this.getPropOrCtx('weekNumberFormat'))
-	      );
-	    } else {
-	      return null;
-	    }
-	  },
-	  getChildContext: function getChildContext() {
-	    return this.getCalendarCtx();
-	  },
-
-
-	  render: function render() {
-	    var classes = this.className({
-	      modifiers: this.props.modifiers,
-	      classes: this.props.classes
-	    });
-
-	    var childrenMap = this.splitChildrenByDate(Day);
-	    var days = dateUtils.daysOfWeek(this.props.date).map(this.makeDirectChild.bind(this, childrenMap, Day));
-
-	    var props = _.assign({
-	      className: classes()
-	    }, this.getEventHandlers());
-
-	    return React.DOM.div(props, [this.makeWeekNumber(classes), React.createElement(
-	      'div',
-	      { key: 'days', className: classes.descendant('days') },
-	      days
-	    )]);
-	  }
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
 
-	module.exports = Week;
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _classnames = __webpack_require__(4);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _util = __webpack_require__(5);
+
+	var _dateUtils = __webpack_require__(7);
+
+	var _Day = __webpack_require__(9);
+
+	var _Day2 = _interopRequireDefault(_Day);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var clsPrefix = 'rc-Week';
+
+	var makeWeekNumber = function makeWeekNumber(props) {
+	  if (!props.weekNumbers) {
+	    return null;
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { key: 'weekNumber',
+	      className: (0, _classnames2.default)(clsPrefix + '-number') },
+	    props.date.format(props.weekNumberFormat)
+	  );
+	};
+
+	var Week = function Week(props) {
+	  var mods = props.mods;
+	  var date = props.date;
+
+	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'week');
+
+	  var clsMods = undefined,
+	      events = undefined;
+
+	  if (modifiers) {
+	    clsMods = modifiers.clsMods;
+	    events = modifiers.events;
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    _extends({ key: 'days', className: (0, _classnames2.default)(clsPrefix, clsMods) }, events),
+	    makeWeekNumber(props),
+	    _react2.default.createElement(
+	      'div',
+	      { className: (0, _classnames2.default)(clsPrefix + '-days') },
+	      (0, _dateUtils.daysOfWeek)(props.date).map(function (date, i) {
+	        var outside = undefined;
+
+	        if (props.edges) {
+	          outside = Boolean(props.edges.find(function (edge, j) {
+	            return edge.isSame(date, 'month', 'week', 'year');
+	          }));
+	        }
+
+	        return _react2.default.createElement(_Day2.default, { outside: !!outside, key: 'day-' + i, date: date, mods: props.day });
+	      })
+	    )
+	  );
+	};
+
+	Week.propTypes = {
+	  weekNumbers: _react.PropTypes.bool,
+	  weekNumberFormat: _react.PropTypes.string
+	};
+
+	Week.defaultProps = {
+	  weekNumbers: false,
+	  weekNumberFormat: 'w'
+	};
+
+	exports.default = Week;
 
 /***/ },
-/* 11 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var _ = __webpack_require__(2);
-	var React = __webpack_require__(3);
-
-	var propTypes = __webpack_require__(6);
-	var ClassNameMixin = __webpack_require__(7);
-
-	var Day = React.createClass({
-	  displayName: 'Day',
-
-	  mixins: [propTypes.Mixin(true, 'Day'), ClassNameMixin],
-
-	  makeHeader: function makeHeader(classes) {
-	    if (this.getPropOrCtx('dayHeader')) {
-	      return React.createElement(
-	        'header',
-	        { className: classes() },
-	        this.props.date.format(this.getPropOrCtx('dayHeaderFormat'))
-	      );
-	    } else {
-	      return null;
-	    }
-	  },
-
-	  makeBody: function makeBody(classes) {
-	    return React.createElement(
-	      'span',
-	      { key: 'body',
-	        className: classes() },
-	      this.props.date.format(this.getPropOrCtx('dayFormat'))
-	    );
-	  },
-
-	  makeAgenda: function makeAgenda(classes) {
-	    if (this.getPropOrCtx('dayAgenda')) {
-	      return React.createElement(
-	        'div',
-	        { key: 'agenda',
-	          className: classes() },
-	        this.props.children
-	      );
-	    } else {
-	      return null;
-	    }
-	  },
-	  getChildContext: function getChildContext() {
-	    return this.getCalendarCtx();
-	  },
-
-
-	  render: function render() {
-	    var classes = this.className({
-	      modifiers: this.props.modifiers,
-	      classes: this.props.classes
-	    });
-
-	    var props = _.assign({
-	      className: classes()
-	    }, this.getEventHandlers());
-
-	    return React.DOM.div(props, [this.makeHeader(classes.descendant('header')), this.makeBody(classes.descendant('body')), this.makeAgenda(classes.descendant('agenda'))]);
-	  }
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
 
-	module.exports = Day;
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _classnames = __webpack_require__(4);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _util = __webpack_require__(5);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var clsPrefix = 'rc-Day';
+
+	var renderHeader = function renderHeader(props) {
+	  if (!props.dayHeader) {
+	    return null;
+	  }
+
+	  return _react2.default.createElement(
+	    'header',
+	    { className: clsPrefix + '-Day-header' },
+	    props.date.format(props.dayHeaderFormat)
+	  );
+	};
+
+	var renderAgenda = function renderAgenda(props) {
+	  if (!props.dayAgenda) {
+	    return null;
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { key: 'agenda',
+	      className: clsPrefix + '-Day-agenda' },
+	    props.children
+	  );
+	};
+
+	var Day = function Day(props) {
+	  var clsPrefix = 'rc-Day';
+	  var date = props.date;
+	  var mods = props.mods;
+	  var outside = props.outside;
+
+	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'day');
+
+	  var clsMods = undefined,
+	      events = undefined;
+
+	  if (modifiers) {
+	    clsMods = modifiers.clsMods;
+	    events = modifiers.events;
+	  }
+
+	  var clsDay = (0, _classnames2.default)(clsPrefix, { 'rc-Day--outside': outside }, clsMods);
+
+	  return _react2.default.createElement(
+	    'div',
+	    _extends({ className: clsDay }, events),
+	    renderHeader(props),
+	    date.format(props.dayFormat),
+	    renderAgenda(props)
+	  );
+	};
+
+	Day.propTypes = {
+	  date: _react2.default.PropTypes.object.isRequired,
+	  dayAgenda: _react2.default.PropTypes.bool,
+	  dayHeader: _react2.default.PropTypes.bool,
+	  dayHeaderFormat: _react2.default.PropTypes.string,
+	  dayFormat: _react2.default.PropTypes.string,
+	  mods: _react.PropTypes.array
+	};
+
+	Day.defaultProps = {
+	  dayAgenda: false,
+	  dayHeader: false,
+	  dayHeaderFormat: 'MMM Do',
+	  dayFormat: 'D'
+	};
+
+	exports.default = Day;
 
 /***/ }
 /******/ ])

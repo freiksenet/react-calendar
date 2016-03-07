@@ -12,6 +12,6 @@ describe('<Month />', () => {
   });
 
   it('should render 4 or 5 weeks depending on the month', () => {
-    expect(wrapper.find('Week')).to.have.gte(4);
+    expect(wrapper.find('Week').length).to.be.gte(4);
   });
 });
