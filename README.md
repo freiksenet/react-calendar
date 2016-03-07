@@ -50,21 +50,21 @@ the tree. Useful, for example, for passing callbacks.
 <Calendar firstMonth={1}
           date={moment("2014-01-01")}
           weekNumbers={true}
-          size={12}>
-          tartDate={ moment() }
-                    endDate={ moment().endOf('year') } <!-- Base calendar compoment -->
-                    weekNumbers={true}
-                    size={12}
-                    mods={
-                      [
-                        {
-                          component: [ 'day' ],
-                          events: {
-                            onClick: (date) => alert(date)
-                          }
-                        }
-                      ]
-                    } />
+          size={12}
+          startDate={ moment() }
+          endDate={ moment().endOf('year') } <!-- Base calendar compoment -->
+          weekNumbers={true}
+          size={12}
+          mods={
+            [
+              {
+                component: [ 'day' ],
+                events: {
+                  onClick: (date) => alert(date)
+                }
+              }
+            ]
+          } />
 ```
 
 Events
