@@ -35,11 +35,11 @@ const renderHeader = (props) => {
 }
 
 const Month = (props) => {
-  const { date, mods, weekNumbers } = props;
-  const modifiers = getMods(mods, date, clsPrefix, 'month');
+  const { date, weekNumbers } = props;
   const edges = monthEdges(date);
 
-  let { day, week } = props;
+  let { mods, day, week } = props;
+  let clsMods, events;
 
   if (!props.day) {
     day = getModsByCompType('day', mods);
@@ -49,7 +49,11 @@ const Month = (props) => {
     week = getModsByCompType('week', mods);
   }
 
-  let clsMods, events;
+  if (!props.day || !props.week) { // this means we're probably just rendering a single month and need to filter our component types again.
+    mods = getModsByCompType('month', mods);
+  }
+
+  const modifiers = getMods(mods, date, clsPrefix, 'month');
 
   if (modifiers) {
     clsMods = modifiers.clsMods;

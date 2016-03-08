@@ -444,16 +444,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Month = function Month(props) {
 	  var date = props.date;
-	  var day = props.day;
-	  var mods = props.mods;
-	  var week = props.week;
 	  var weekNumbers = props.weekNumbers;
 
-	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'month');
 	  var edges = (0, _dateUtils.monthEdges)(date);
+
+	  var mods = props.mods;
+	  var day = props.day;
+	  var week = props.week;
 
 	  var clsMods = void 0,
 	      events = void 0;
+
+	  if (!props.day) {
+	    day = (0, _util.getModsByCompType)('day', mods);
+	  }
+
+	  if (!props.week) {
+	    week = (0, _util.getModsByCompType)('week', mods);
+	  }
+
+	  if (!props.day || !props.week) {
+	    // this means we're probably just rendering a single month and need to filter our component types again.
+	    mods = (0, _util.getModsByCompType)('month', mods);
+	  }
+
+	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'month');
 
 	  if (modifiers) {
 	    clsMods = modifiers.clsMods;
@@ -617,12 +632,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'week');
 
-	  var clsMods = void 0,
-	      events = void 0;
+	  var clsMods = void 0;var events = void 0;var day = props.day;
+
 
 	  if (modifiers) {
 	    clsMods = modifiers.clsMods;
 	    events = modifiers.events;
+	  }
+
+	  if (!props.day) {
+	    day = (0, _util.getModsByCompType)('day', mods);
 	  }
 
 	  return _react2.default.createElement(
@@ -641,7 +660,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }));
 	        }
 
-	        return _react2.default.createElement(_Day2.default, { outside: !!outside, key: 'day-' + i, date: date, mods: props.day });
+	        return _react2.default.createElement(_Day2.default, { outside: !!outside, key: 'day-' + i, date: date, mods: day });
 	      })
 	    )
 	  );
