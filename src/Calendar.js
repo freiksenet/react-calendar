@@ -65,11 +65,11 @@ export default class Calendar extends Component {
             let fDayMods = dayMods.filter((mod, k) => mod.date ? mod.date.get('month') === i : true);
 
             return <Month key={ `month-${i}` }
-                   date={ date }
-                   weekNumbers={ this.props.weekNumbers }
-                   mods={ monthMods }
-                   week={ fWeekMods }
-                   day={ fDayMods } />
+                          date={ date }
+                          weekNumbers={ this.props.weekNumbers }
+                          mods={ monthMods }
+                          week={ fWeekMods }
+                          day={ fDayMods } />
           })
         }
       </div>

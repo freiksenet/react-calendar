@@ -452,8 +452,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'month');
 	  var edges = (0, _dateUtils.monthEdges)(date);
 
-	  var clsMods = undefined,
-	      events = undefined;
+	  var clsMods = void 0,
+	      events = void 0;
 
 	  if (modifiers) {
 	    clsMods = modifiers.clsMods;
@@ -617,8 +617,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'week');
 
-	  var clsMods = undefined,
-	      events = undefined;
+	  var clsMods = void 0,
+	      events = void 0;
 
 	  if (modifiers) {
 	    clsMods = modifiers.clsMods;
@@ -633,7 +633,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'div',
 	      { className: (0, _classnames2.default)(clsPrefix + '-days') },
 	      (0, _dateUtils.daysOfWeek)(props.date).map(function (date, i) {
-	        var outside = undefined;
+	        var outside = void 0;
 
 	        if (props.edges) {
 	          outside = Boolean(props.edges.find(function (edge, j) {
@@ -718,8 +718,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'day');
 
-	  var clsMods = undefined,
-	      events = undefined;
+	  var clsMods = void 0,
+	      events = void 0;
 
 	  if (modifiers) {
 	    clsMods = modifiers.clsMods;

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
-import { getMods } from './util';
+import { getMods, getModsByCompType } from './util';
 import { daysOfWeek } from './dateUtils';
 import Day from './Day';
 
@@ -24,11 +24,15 @@ const Week = (props) => {
   const { mods, date } = props;
   const modifiers = getMods(mods, date, clsPrefix, 'week');
 
-  let clsMods, events;
+  let clsMods, events, { day } = props;
 
   if (modifiers) {
     clsMods = modifiers.clsMods;
     events = modifiers.events;
+  }
+
+  if (!props.day) {
+    day = getModsByCompType('day', mods);
   }
 
   return (
@@ -43,7 +47,7 @@ const Week = (props) => {
               outside = Boolean(props.edges.find((edge, j) => edge.isSame(date, 'month', 'week', 'year')));
             }
 
-            return <Day outside={ !!outside } key={ `day-${i}` } date={ date } mods={ props.day } />
+            return <Day outside={ !!outside } key={ `day-${i}` } date={ date } mods={ day } />
           })
         }
       </div>
