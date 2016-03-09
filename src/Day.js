@@ -23,8 +23,7 @@ const renderAgenda = (props) => {
   }
 
   return (
-    <div key="agenda"
-         className={`${clsPrefix}-Day-agenda`}>
+    <div key="agenda" className={`${clsPrefix}-Day-agenda`}>
       { props.children }
     </div>
   );

@@ -10,8 +10,22 @@ const bindEvents = (events, date) => {
 const getClsMods = (clsPrefix, mods) =>
   !mods || !mods.classNames ? null : mods.classNames.map((cls) => `${clsPrefix}--${cls}`);
 
-const getModByDate = (mods, date, type) =>
-  mods.find((mod) => mod.date ? mod.date.isSame(date, type) : null);
+const getModByDate = (mods, date, type) => {
+  const modifier = {
+    date: null,
+    classNames: [],
+    events: {}
+  };
+
+  mods.filter((mod) => mod.date ? mod.date.isSame(date, type) : null)
+    .forEach((_mod) => {
+      modifier.date = _mod.date;
+      modifier.events = Object.assign(modifier.events, _mod.events);
+      modifier.classNames.push(..._mod.classNames);
+    });
+
+  return modifier;
+}
 
 const getModsWithoutDate = (mods) =>
   mods.filter((mod) => !mod.date)

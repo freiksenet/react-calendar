@@ -13,8 +13,7 @@ const makeWeekNumber = (props) => {
   }
 
   return (
-    <div key="weekNumber"
-         className={ classnames(`${clsPrefix}-number`) }>
+    <div key="weekNumber" className={ classnames(`${clsPrefix}-number`) }>
       { props.date.format(props.weekNumberFormat) }
     </div>
   );
@@ -22,9 +21,10 @@ const makeWeekNumber = (props) => {
 
 const Week = (props) => {
   const { mods, date } = props;
-  const modifiers = getMods(mods, date, clsPrefix, 'week');
+  let clsMods, events, week, { day } = props;
 
-  let clsMods, events, { day } = props;
+  week = getModsByCompType('week', mods);
+  const modifiers = getMods(week, date, clsPrefix, 'week');
 
   if (modifiers) {
     clsMods = modifiers.clsMods;

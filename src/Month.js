@@ -53,6 +53,9 @@ const Month = (props) => {
     mods = getModsByCompType('month', mods);
   }
 
+  let fWeekMods = week.filter((mod, j) => mod.date ? mod.date.isSame(date, 'month') : true);
+  let fDayMods = day.filter((mod, k) => mod.date ? mod.date.isSame(date, 'month') : true);
+
   const modifiers = getMods(mods, date, clsPrefix, 'month');
 
   if (modifiers) {
@@ -70,8 +73,8 @@ const Month = (props) => {
                 date={ wDate }
                 edges={ edges }
                 weekNumbers={ weekNumbers }
-                mods={ week }
-                day={ day } />
+                mods={ fWeekMods }
+                day={ fDayMods } />
         )
       }
     </div>

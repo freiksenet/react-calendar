@@ -34,8 +34,7 @@ export default class Calendar extends Component {
 
   renderHeader () {
     return (
-      <header key="header"
-              className={classnames('rc-Calendar-header')}>
+      <header key="header" className={classnames('rc-Calendar-header')}>
         { this.moment(this.props.date).format(this.props.yearHeaderFormat) }
       </header>
     );
@@ -60,17 +59,14 @@ export default class Calendar extends Component {
       <div>
         { this.renderHeader() }
         {
-          this.getMonthRange().map((date, i) => {
-            let fWeekMods = weekMods.filter((mod, j) => mod.date ? mod.date.get('month') === i : true);
-            let fDayMods = dayMods.filter((mod, k) => mod.date ? mod.date.get('month') === i : true);
-
-            return <Month key={ `month-${i}` }
-                          date={ date }
-                          weekNumbers={ this.props.weekNumbers }
-                          mods={ monthMods }
-                          week={ fWeekMods }
-                          day={ fDayMods } />
-          })
+          this.getMonthRange().map((date, i) =>
+           <Month key={ `month-${i}` }
+                  date={ date }
+                  weekNumbers={ this.props.weekNumbers }
+                  mods={ monthMods }
+                  week={ weekMods }
+                  day={ dayMods } />
+          )
         }
       </div>
     );

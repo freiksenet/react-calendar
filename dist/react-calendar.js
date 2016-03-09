@@ -177,8 +177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function renderHeader() {
 	      return _react2.default.createElement(
 	        'header',
-	        { key: 'header',
-	          className: (0, _classnames2.default)('rc-Calendar-header') },
+	        { key: 'header', className: (0, _classnames2.default)('rc-Calendar-header') },
 	        this.moment(this.props.date).format(this.props.yearHeaderFormat)
 	      );
 	    }
@@ -210,19 +209,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        null,
 	        this.renderHeader(),
 	        this.getMonthRange().map(function (date, i) {
-	          var fWeekMods = weekMods.filter(function (mod, j) {
-	            return mod.date ? mod.date.get('month') === i : true;
-	          });
-	          var fDayMods = dayMods.filter(function (mod, k) {
-	            return mod.date ? mod.date.get('month') === i : true;
-	          });
-
 	          return _react2.default.createElement(_Month2.default, { key: 'month-' + i,
 	            date: date,
 	            weekNumbers: _this2.props.weekNumbers,
 	            mods: monthMods,
-	            week: fWeekMods,
-	            day: fDayMods });
+	            week: weekMods,
+	            day: dayMods });
 	        })
 	      );
 	    }
@@ -340,9 +332,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var getModByDate = function getModByDate(mods, date, type) {
-	  return mods.find(function (mod) {
+	  var modifier = {
+	    date: null,
+	    classNames: [],
+	    events: {}
+	  };
+
+	  mods.filter(function (mod) {
 	    return mod.date ? mod.date.isSame(date, type) : null;
+	  }).forEach(function (_mod) {
+	    var _modifier$classNames;
+
+	    modifier.date = _mod.date;
+	    modifier.events = Object.assign(modifier.events, _mod.events);
+	    (_modifier$classNames = modifier.classNames).push.apply(_modifier$classNames, _toConsumableArray(_mod.classNames));
 	  });
+
+	  return modifier;
 	};
 
 	var getModsWithoutDate = function getModsWithoutDate(mods) {
@@ -468,6 +474,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    mods = (0, _util.getModsByCompType)('month', mods);
 	  }
 
+	  var fWeekMods = week.filter(function (mod, j) {
+	    return mod.date ? mod.date.isSame(date, 'month') : true;
+	  });
+	  var fDayMods = day.filter(function (mod, k) {
+	    return mod.date ? mod.date.isSame(date, 'month') : true;
+	  });
+
 	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'month');
 
 	  if (modifiers) {
@@ -485,8 +498,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        date: wDate,
 	        edges: edges,
 	        weekNumbers: weekNumbers,
-	        mods: week,
-	        day: day });
+	        mods: fWeekMods,
+	        day: fDayMods });
 	    })
 	  );
 	};
@@ -620,8 +633,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return _react2.default.createElement(
 	    'div',
-	    { key: 'weekNumber',
-	      className: (0, _classnames2.default)(clsPrefix + '-number') },
+	    { key: 'weekNumber', className: (0, _classnames2.default)(clsPrefix + '-number') },
 	    props.date.format(props.weekNumberFormat)
 	  );
 	};
@@ -629,11 +641,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Week = function Week(props) {
 	  var mods = props.mods;
 	  var date = props.date;
+	  var clsMods = void 0;var events = void 0;var week = void 0;var day = props.day;
 
-	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'week');
 
-	  var clsMods = void 0;var events = void 0;var day = props.day;
-
+	  week = (0, _util.getModsByCompType)('week', mods);
+	  var modifiers = (0, _util.getMods)(week, date, clsPrefix, 'week');
 
 	  if (modifiers) {
 	    clsMods = modifiers.clsMods;
@@ -723,8 +735,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return _react2.default.createElement(
 	    'div',
-	    { key: 'agenda',
-	      className: clsPrefix + '-Day-agenda' },
+	    { key: 'agenda', className: clsPrefix + '-Day-agenda' },
 	    props.children
 	  );
 	};
