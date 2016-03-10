@@ -36,8 +36,8 @@ One year calendar ([Demo](http://freiksenet.github.io/react-calendar/)):
           />
 ```
 
-Each component can be used separately AND passed to other components to modify
-rendering.
+Each component can be used separately ~~AND passed to other components to modify
+rendering.~~ We have deprecated this in favor of passing a more flexible modifier object.
 
 ```html
 <Month date={moment()} />

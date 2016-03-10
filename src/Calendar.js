@@ -41,7 +41,7 @@ export default class Calendar extends Component {
   }
 
   getMonthRange () {
-    const focus = this.moment(this.props.date).startOf('month');
+    const focus = this.moment(this.props.date || this.props.startDate).startOf('month');
     const start = this.moment(this.props.startDate);
     const end = this.moment(this.props.endDate);
     const size = end.diff(start, 'month') + 1;

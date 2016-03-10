@@ -23,6 +23,10 @@ const renderWeekHeader = (props) => {
 };
 
 const renderHeader = (props) => {
+  if (props.renderHeader) {
+    return props.renderHeader(props);
+  }
+
   if (!props.monthNames) {
     return null;
   }
@@ -32,7 +36,7 @@ const renderHeader = (props) => {
       { props.date.format(props.monthNameFormat) }
     </header>
   );
-}
+};
 
 const Month = (props) => {
   const { date, weekNumbers } = props;

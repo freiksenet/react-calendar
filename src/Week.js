@@ -17,7 +17,25 @@ const makeWeekNumber = (props) => {
       { props.date.format(props.weekNumberFormat) }
     </div>
   );
-}
+};
+
+const renderWeekHeader = (props) => {
+  if (!props.weekHeader) {
+    return null;
+  }
+
+  return (
+    <div className={`${clsPrefix}-weekdays`}>
+      {
+        daysOfWeek(props.date).map((weekday, i) =>
+          <div key={ `weekday-header-${i}` } className={ classnames(`${clsPrefix}-weekdays-weekday`) }>
+            { weekday.format(props.weekdayFormat) }
+          </div>
+        )
+      }
+    </div>
+  );
+};
 
 const Week = (props) => {
   const { mods, date } = props;
@@ -37,6 +55,7 @@ const Week = (props) => {
 
   return (
     <div key="days" className={ classnames(clsPrefix, clsMods) } { ...events }>
+      { renderWeekHeader(props) }
       { makeWeekNumber(props) }
       <div className={ classnames(`${clsPrefix}-days`) }>
         {
@@ -56,13 +75,17 @@ const Week = (props) => {
 };
 
 Week.propTypes = {
+  weekHeader: PropTypes.bool,
   weekNumbers: PropTypes.bool,
-  weekNumberFormat: PropTypes.string
+  weekNumberFormat: PropTypes.string,
+  weekdayFormat: PropTypes.string,
 };
 
 Week.defaultProps = {
+  weekHeader: false,
   weekNumbers: false,
-  weekNumberFormat: 'w'
+  weekNumberFormat: 'w',
+  weekdayFormat: 'dd',
 };
 
 export default Week;

@@ -50,8 +50,9 @@ const PagingCalendar = React.createClass({
                       component: [ 'day', 'month', 'week' ]
                     },
                     {
-                      date: moment().add(3, 'days'),
-                      classNames: [ 'event' ],
+                      startDate: moment().add(3, 'days'),
+                      endDate: moment().add(7, 'days'),
+                      classNames: [ 'longEvent' ],
                       component: [ 'day' ]
                     },
                     {
@@ -79,7 +80,7 @@ const PagingCalendar = React.createClass({
                       }
                     }
                   ]
-                  } />
+                } />
       </div>
     );
   }
