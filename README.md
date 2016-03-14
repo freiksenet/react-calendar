@@ -1,5 +1,7 @@
 react-calendar
---------------
+==============
+[![NPM version][npm-image]][npm-url]
+[![Downloads][downloads-image]][downloads-url]
 
 Calendars for React 0.14.3.
 
@@ -99,12 +101,17 @@ will yield the following classes: `"rc-Day rc-Day--bar".`
 TODO
 ----
 
-* Merging of modifiers and classe
-* Docs
-* Calendar should be able to page
-* A component for Year - Calendar is supposed to be a 'controller' component for
-  pageable stuff
-* A component that is on lower level that Day - for events.
-* Utils to create range of components for modifying multiple components easier
-* An example datepicker component using react-calendar
-* Tests
+[] Merging of modifiers and classe
+[] Docs
+[] Calendar should be able to page
+[] A component for Year - Calendar is supposed to be a 'controller' component for pageable stuff
+[] A component that is on lower level that Day - for events.
+[x] ~~Utils to create range of components for modifying multiple components easier~~
+[] An example datepicker component using react-calendar
+[x] Tests
+  [] Test more...
+
+[npm-image]: https://img.shields.io/npm/v/react-calendar.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/react-calendar
+[downloads-image]: https://img.shields.io/npm/dm/react-calendar.svg?style=flat-square
+[downloads-url]: https://npmjs.org/package/react-calendar
