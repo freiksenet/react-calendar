@@ -101,15 +101,15 @@ will yield the following classes: `"rc-Day rc-Day--bar".`
 TODO
 ----
 
-- [] Merging of modifiers and classe
-- [] Docs
-- [] Calendar should be able to page
-- [] A component for Year - Calendar is supposed to be a 'controller' component for pageable stuff
-- [] A component that is on lower level that Day - for events.
+- [ ] Merging of modifiers and classe
+- [ ] Docs
+- [ ] Calendar should be able to page
+- [ ] A component for Year - Calendar is supposed to be a 'controller' component for pageable stuff
+- [ ] A component that is on lower level that Day - for events.
 - [x] ~~Utils to create range of components for modifying multiple components easier~~
-- [] An example datepicker component using react-calendar
-- [x] Tests
--   [] More Tests!
+- [ ] An example datepicker component using react-calendar
+- [x] ~~Basic unit tests~~
+- [ ] More Tests!
 
 [npm-image]: https://img.shields.io/npm/v/react-calendar.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-calendar
