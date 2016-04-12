@@ -3,7 +3,7 @@ react-calendar
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][downloads-url]
 
-Calendars for React 0.14.3.
+Calendars for React v15.
 
 Not just calendar component, but a modular toolkit for building everything
 related to calendars in React, such as Datepickers.

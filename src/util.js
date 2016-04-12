@@ -26,7 +26,9 @@ const getModByDate = (mods, date, type) => {
     .forEach((_mod) => {
       modifier.date = _mod.date;
       modifier.events = _mod.events;
-      modifier.classNames.push(..._mod.classNames);
+      if (Array.isArray(_mod.classNames)) {
+        modifier.classNames.push(..._mod.classNames);
+      }
     });
 
   return modifier;
@@ -60,8 +62,13 @@ const getModsWithSingleDate = (mods) =>
 const getModsWithoutDate = (mods) =>
   mods.filter((mod) => !mod.date)
 
-export const getModsByCompType = (componentType, mods) =>
-  mods.filter(({ component }) => component.indexOf(componentType.toLowerCase()) > -1)
+export const getModsByCompType = (componentType, mods) => {
+  if (!Array.isArray(mods)) {
+    return [];
+  }
+
+  return mods.filter(({ component }) => component.indexOf(componentType.toLowerCase()) > -1)
+};
 
 export const getMods = (mods, date, clsPrefix, type) => {
   if (!mods) {
