@@ -184,7 +184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'getMonthRange',
 	    value: function getMonthRange() {
-	      var focus = this.moment(this.props.date).startOf('month');
+	      var focus = this.moment(this.props.date || this.props.startDate).startOf('month');
 	      var start = this.moment(this.props.startDate);
 	      var end = this.moment(this.props.endDate);
 	      var size = end.diff(start, 'month') + 1;
@@ -307,16 +307,20 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	var bindEvents = function bindEvents(events, date) {
 	  var boundEvents = {};
+
+	  if (!events) return null;
 
 	  Object.keys(events).forEach(function (key) {
 	    return boundEvents[key] = events[key].bind(null, date);
@@ -327,10 +331,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var getClsMods = function getClsMods(clsPrefix, mods) {
 	  return !mods || !mods.classNames ? null : mods.classNames.map(function (cls) {
-	    return clsPrefix + "--" + cls;
+	    return clsPrefix + '--' + cls;
 	  });
 	};
 
+	/**
+	  * Internal: Creates a single modifier object for a date
+	  */
 	var getModByDate = function getModByDate(mods, date, type) {
 	  var modifier = {
 	    date: null,
@@ -341,15 +348,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	  mods.filter(function (mod) {
 	    return mod.date ? mod.date.isSame(date, type) : null;
 	  }).forEach(function (_mod) {
-	    var _modifier$classNames;
-
 	    modifier.date = _mod.date;
-	    modifier.events = Object.assign(modifier.events, _mod.events);
-	    (_modifier$classNames = modifier.classNames).push.apply(_modifier$classNames, _toConsumableArray(_mod.classNames));
+	    modifier.events = _mod.events;
+	    if (Array.isArray(_mod.classNames)) {
+	      var _modifier$classNames;
+
+	      (_modifier$classNames = modifier.classNames).push.apply(_modifier$classNames, _toConsumableArray(_mod.classNames));
+	    }
 	  });
 
 	  return modifier;
 	};
+
+	var getModsWithDateRange = function getModsWithDateRange(mods) {
+	  return mods.filter(function (mod) {
+	    return !!mod.startDate;
+	  });
+	};
+
+	var explodeDateRanges = function explodeDateRanges(mods) {
+	  return mods.map(function (mod) {
+	    var diff = mod.endDate.diff(mod.startDate, 'days');
+
+	    if (!diff) {
+	      // if the diff is 0 just return the mod
+	      mod.date = mod.startDate.clone();
+	      return mod;
+	    }
+
+	    return Array(diff).fill(mod).map(function (mod, i) {
+	      return _extends({}, mod, {
+	        date: mod.startDate.clone().add(i, 'days')
+	      });
+	    });
+	  }).reduce(function (a, b) {
+	    return a.concat(b);
+	  }, []);
+	};
+
+	// const getModsWithSingleDate = (mods) =>
+	// mods.filter((mod) => !mod.startDate && mod.date)
 
 	var getModsWithoutDate = function getModsWithoutDate(mods) {
 	  return mods.filter(function (mod) {
@@ -358,6 +396,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var getModsByCompType = exports.getModsByCompType = function getModsByCompType(componentType, mods) {
+	  if (!mods) {
+	    return [];
+	  }
+
 	  return mods.filter(function (_ref) {
 	    var component = _ref.component;
 	    return component.indexOf(componentType.toLowerCase()) > -1;
@@ -370,8 +412,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  var events = {};
-
-	  var mod = getModByDate(mods, date, type);
+	  var exploded = explodeDateRanges(getModsWithDateRange(mods));
+	  var mod = getModByDate([].concat(_toConsumableArray(mods), _toConsumableArray(exploded)), date, type);
 	  var clsMods = getClsMods(clsPrefix, mod) || [];
 	  var clsCompMods = getClsMods(clsPrefix, getModsWithoutDate(mods)) || [];
 
@@ -437,6 +479,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var renderHeader = function renderHeader(props) {
+	  if (props.renderHeader) {
+	    return props.renderHeader(props);
+	  }
+
 	  if (!props.monthNames) {
 	    return null;
 	  }
@@ -638,6 +684,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  );
 	};
 
+	var renderWeekHeader = function renderWeekHeader(props) {
+	  if (!props.weekHeader) {
+	    return null;
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: clsPrefix + '-weekdays' },
+	    (0, _dateUtils.daysOfWeek)(props.date).map(function (weekday, i) {
+	      return _react2.default.createElement(
+	        'div',
+	        { key: 'weekday-header-' + i, className: (0, _classnames2.default)(clsPrefix + '-weekdays-weekday') },
+	        weekday.format(props.weekdayFormat)
+	      );
+	    })
+	  );
+	};
+
 	var Week = function Week(props) {
 	  var mods = props.mods;
 	  var date = props.date;
@@ -659,6 +723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return _react2.default.createElement(
 	    'div',
 	    _extends({ key: 'days', className: (0, _classnames2.default)(clsPrefix, clsMods) }, events),
+	    renderWeekHeader(props),
 	    makeWeekNumber(props),
 	    _react2.default.createElement(
 	      'div',
@@ -679,13 +744,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	Week.propTypes = {
+	  weekHeader: _react.PropTypes.bool,
 	  weekNumbers: _react.PropTypes.bool,
-	  weekNumberFormat: _react.PropTypes.string
+	  weekNumberFormat: _react.PropTypes.string,
+	  weekdayFormat: _react.PropTypes.string
 	};
 
 	Week.defaultProps = {
+	  weekHeader: false,
 	  weekNumbers: false,
-	  weekNumberFormat: 'w'
+	  weekNumberFormat: 'w',
+	  weekdayFormat: 'dd'
 	};
 
 	exports.default = Week;
