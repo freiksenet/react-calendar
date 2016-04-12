@@ -68,7 +68,7 @@ export const getModsByCompType = (componentType, mods) => {
   }
 
   return mods.filter(({ component }) => component.indexOf(componentType.toLowerCase()) > -1)
-}
+};
 
 export const getMods = (mods, date, clsPrefix, type) => {
   if (!mods) {
