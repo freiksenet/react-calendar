@@ -10,6 +10,10 @@ const clsPrefix = 'rc-Month';
 
 const renderWeekHeader = (props) => {
   return (
+    if (!props.weekdayNames) {
+      return null;
+    }
+    
     <div className={`${clsPrefix}-weekdays`}>
       {
         daysOfWeek(props.date).map((weekday, i) =>
