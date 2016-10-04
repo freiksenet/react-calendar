@@ -51,7 +51,7 @@ function daysOfWeek(week, startMonth, events) {
 
   for (let i = 0; i < 7; i++) {
     const day = thisWeek.clone().add(i, 'day');
-    let clsDay = `rc-Day ${day.month() !== startMonth ? 'rc-Day--outside' : ''}`;
+    let clsDay = `rc-Day ${day.month() !== startMonth ? 'rc-Day--outside ' : ''}`;
     let event = [];
 
     if (events && events.hasOwnProperty(day.unix())) {
