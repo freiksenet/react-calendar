@@ -1,22 +1,24 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-
-import { monthEdges, weeksOfMonth, daysOfWeek } from './dateUtils';
-import { getMods, getModsByCompType } from './util';
-import Week from './Week';
-import Day from './Day';
+import moment from 'moment';
 
 const clsPrefix = 'rc-Month';
 
 const renderWeekHeader = (props) => {
+  const week = moment(props.date).clone().startOf('week');
+
   return (
     <div className={`${clsPrefix}-weekdays`}>
       {
-        daysOfWeek(props.date).map((weekday, i) =>
-          <div key={ `weekday-header-${i}` } className={ classnames(`${clsPrefix}-weekdays-weekday`) }>
-            { weekday.format(props.weekdayFormat) }
-          </div>
-        )
+        Array(7).fill(0).map((weekday, i) => {
+          week.add(i === 0 ? 0 : 1, 'day');
+
+          return (
+            <div key={`weekday-header-${i}`} className={classnames(`${clsPrefix}-weekdays-weekday`)}>
+              {week.format(props.weekdayFormat)}
+            </div>
+          );
+        })
       }
     </div>
   );
@@ -32,60 +34,68 @@ const renderHeader = (props) => {
   }
 
   return (
-    <header key="header" className={ classnames(`${clsPrefix}-header`) }>
-      { props.date.format(props.monthNameFormat) }
+    <header key="header" className={classnames(`${clsPrefix}-header`)}>
+      {moment(props.date).format(props.monthNameFormat)}
     </header>
   );
 };
 
+/** Returns moment objects for each day of the week.
+ *  TODO: Ordering is locale aware.
+ *  @param {string|Date|moment} week any date in a week to create days for
+ */
+function daysOfWeek(week, startMonth) {
+  const days = [];
+  const thisWeek = moment(week);
+
+  for (let i = 0; i < 7; i++) {
+    const day = thisWeek.clone().add(i, 'day');
+
+    days.push(
+      <div className={`rc-Day ${day.month() !== startMonth ? 'rc-Day--outside' : ''}`} key={`day-${day.format('MMMD')}`}>
+        {day.format('D')}
+      </div>
+    );
+  }
+
+  return days;
+}
+
+/** Returns moment objects for first day of each week of the month.
+ *  Can return moments from previous month if week start is in them.
+ *  @param {string|Date|moment} month any date in a month to create weeks for
+ */
+export function weeksOfMonth(month) {
+  const thisMonth = month.month();
+  const weeks = [];
+
+  weeks.push(daysOfWeek(month.clone().startOf('month').startOf('week'), thisMonth));
+
+  do {
+    month.add(1, 'week');
+    weeks.push(daysOfWeek(month.clone().startOf('week'), thisMonth));
+  } while (month.month() === thisMonth);
+
+  return weeks;
+}
+
 const Month = (props) => {
   const { date, weekNumbers } = props;
-  const edges = monthEdges(date);
-
-  let { mods, day, week } = props;
-  let clsMods, events;
-
-  if (!props.day) {
-    day = getModsByCompType('day', mods);
-  }
-
-  if (!props.week) {
-    week = getModsByCompType('week', mods);
-  }
-
-  if (!props.day || !props.week) { // this means we're probably just rendering a single month and need to filter our component types again.
-    mods = getModsByCompType('month', mods);
-  }
-
-  let fWeekMods = week.filter((mod, j) => mod.date ? mod.date.isSame(date, 'month') : true);
-  let fDayMods = day.filter((mod, k) => mod.date ? mod.date.isSame(date, 'month') : true);
-
-  const modifiers = getMods(mods, date, clsPrefix, 'month');
-
-  if (modifiers) {
-    clsMods = modifiers.clsMods;
-    events = modifiers.events;
-  }
 
   return (
-    <div className={ classnames(clsPrefix, clsMods) } { ...events }>
-      { renderHeader(props) }
-      { renderWeekHeader(props) }
-      {
-        weeksOfMonth(props.date).map((wDate, i) =>
-          <Week key={ `week-${i}` }
-                date={ wDate }
-                edges={ edges }
-                weekNumbers={ weekNumbers }
-                mods={ fWeekMods }
-                day={ fDayMods } />
-        )
-      }
+    <div className={classnames(clsPrefix)}>
+      {renderHeader(props)}
+      {renderWeekHeader(props)}
+      <div className="rc-Month dayContainer">
+        {weeksOfMonth(moment(date))}
+      </div>
     </div>
   );
 };
 
 Month.propTypes = {
+  date: PropTypes.string.isRequired,
+  weekNumbers: PropTypes.bool.isRequired,
   monthNames: PropTypes.bool,
   monthNameFormat: PropTypes.string,
   weekdayNames: PropTypes.bool,

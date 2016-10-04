@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 
 var config = {
+  devtool: 'inline-source-map',
   entry: './react-calendar.js',
   output: {
     path: 'dist',
@@ -49,18 +50,22 @@ if (process.env.REACT_CALENDAR_WEBPACK === 'umd') {
 }
 
 if (process.env.REACT_CALENDAR_WEBPACK === 'server') {
+  config.entry = [
+    'react-hot-loader/patch',
+    './demo.js'
+  ];
+
   config.module.loaders = [
     {
       test: /\.js$/,
-      loader: 'react-hot!babel?presets[]=react,presets[]=es2015,presets[]=stage-0',
+      loader: 'babel',
     },
     { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
     { test: /\.css/, loader: 'style-loader!css-loader' },
-    { test: /\.woff$/, loader: 'file-loader' },
-    { test: /\.ttf$/, loader: 'file-loader' },
-    { test: /\.eot$/, loader: 'file-loader' },
-    { test: /\.svg$/, loader: 'file-loader' }
+    { test: /\.(woff2?|ttf|eot|svg)$/, loader: 'file-loader' },
   ];
+
+
   config.plugins = [
     new webpack.NoErrorsPlugin()
   ];

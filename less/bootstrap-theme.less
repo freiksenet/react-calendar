@@ -5,7 +5,7 @@
 
 .cell {
   display: inline-block;
-  width: 32px;
+  width: 14.28%;
   height: 32px;
   padding: 5px;
   text-align: center;
@@ -21,13 +21,21 @@
   &-Month {
     display: inline-block;
     vertical-align: top;
-    margin: 0 0 10px 10px;
+    padding: 10px;
+    width: 25%;
+    & .dayContainer {
+      padding: 0;
+      width: 100%;
+      border-top: 1px solid @gray-lighter;
+      border-left: 1px solid @gray-lighter;
+      // border-right: 1px solid @gray-lighter;
+    }
     &-header {
       text-align: center;
       font-weight: bolder;
     }
     &-weekdays {
-      margin-left: 32px;
+      // margin-left: 32px;
       &-weekday {
         .cell();
         font-weight: bolder;
@@ -62,6 +70,7 @@
   &-Day {
     .cell();
     border-right: 1px solid @gray-lighter;
+    border-bottom: 1px solid @gray-lighter;
     cursor: pointer;
     &:hover {
       background-color: @brand-info;

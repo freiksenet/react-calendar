@@ -96,24 +96,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _util = __webpack_require__(5);
-
-	Object.defineProperty(exports, 'util', {
-	  enumerable: true,
-	  get: function get() {
-	    return _interopRequireDefault(_util).default;
-	  }
-	});
-
-	var _dateUtils = __webpack_require__(7);
-
-	Object.defineProperty(exports, 'dateUtils', {
-	  enumerable: true,
-	  get: function get() {
-	    return _interopRequireDefault(_dateUtils).default;
-	  }
-	});
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
@@ -386,8 +368,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, []);
 	};
 
-	// const getModsWithSingleDate = (mods) =>
-	// mods.filter((mod) => !mod.startDate && mod.date)
+	var getModsWithSingleDate = function getModsWithSingleDate(mods) {
+	  return mods.filter(function (mod) {
+	    return !mod.startDate && mod.date;
+	  });
+	};
 
 	var getModsWithoutDate = function getModsWithoutDate(mods) {
 	  return mods.filter(function (mod) {
@@ -396,7 +381,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var getModsByCompType = exports.getModsByCompType = function getModsByCompType(componentType, mods) {
-	  if (!mods) {
+	  if (!Array.isArray(mods)) {
 	    return [];
 	  }
 
