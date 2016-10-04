@@ -1,11 +1,10 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import classnames from 'classnames';
-import { getModsByCompType } from './util';
 
 import Month from './Month';
 
-export default class Calendar extends PureComponent {
+export default class Calendar extends Component {
   static propTypes = {
     startDate: PropTypes.object.isRequired,
     endDate: PropTypes.object.isRequired,
@@ -31,7 +30,7 @@ export default class Calendar extends PureComponent {
   }
 
   moment(...args) {
-    const localMoment = moment.apply(args);
+    const localMoment = moment(...args);
 
     localMoment.locale(this.props.locale);
 
@@ -46,13 +45,12 @@ export default class Calendar extends PureComponent {
     );
   }
 
-
   render() {
     const { events } = this.props;
 
     return (
       <div>
-        { this.renderHeader() }
+        {this.renderHeader()}
         {
           this.getMonthRange().map((date, i) =>
             <Month
