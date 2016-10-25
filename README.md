@@ -22,7 +22,7 @@ One year calendar ([Demo](http://freiksenet.github.io/react-calendar/)):
 
 ```html
 <Calendar startDate={ moment() }
-          endDate={ moment().endOf('year') } <!-- Base calendar compoment -->
+          endDate={ moment().endOf('year') } <!-- Base calendar component -->
           weekNumbers={true}
           size={12}
           mods={
