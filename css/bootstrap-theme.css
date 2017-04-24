@@ -1,0 +1,87 @@
+.cell {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  text-align: center;
+}
+.rc-Calendar-header {
+  text-align: center;
+  font-weight: bolder;
+}
+.rc-Month {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 10px 10px;
+}
+.rc-Month-header {
+  text-align: center;
+  font-weight: bolder;
+}
+.rc-Month-weekdays {
+  margin-left: 32px;
+}
+.rc-Month-weekdays-weekday {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  text-align: center;
+  font-weight: bolder;
+}
+.rc-Month--current .rc-Month-header {
+  color: #337ab7;
+}
+.rc-Week {
+  height: 32px;
+}
+.rc-Week-number {
+  color: #777777;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  text-align: center;
+}
+.rc-Week-days {
+  border-left: 1px solid #eeeeee;
+  border-top: 1px solid #eeeeee;
+  display: inline-block;
+}
+.rc-Week:last-child .rc-Week-days {
+  border-bottom: 1px solid #eeeeee;
+}
+.rc-Week--current {
+  background-color: #5bc0de;
+}
+.rc-Day {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  text-align: center;
+  border-right: 1px solid #eeeeee;
+  cursor: pointer;
+}
+.rc-Day:hover {
+  background-color: #5bc0de;
+}
+.rc-Day--outside {
+  cursor: default;
+  color: #eeeeee;
+}
+.rc-Day--outside:hover {
+  background-color: transparent;
+}
+.rc-Day--event {
+  background-color: #eeeeee;
+}
+.rc-Day--current {
+  background-color: #337ab7;
+}
+.rc-Day--longEvent {
+  background-color: #5cb85c;
+}
+.rc-Day--warning {
+  background-color: #f0ad4e;
+}
