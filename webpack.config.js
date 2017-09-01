@@ -1,30 +1,35 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
+const path = require('path');
 
-var config = {
-  devtool: 'inline-source-map',
+module.exports = {
   entry: './react-calendar.js',
   output: {
-    path: 'dist',
+    path: path.resolve(__dirname, './dist'),
     filename: 'react-calendar.js',
     library: 'ReactCalendar',
     libraryTarget: 'umd'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loader: 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0',
+        loader: 'babel-loader',
         exclude: [ /node_modules/, /.less$/, 'demo.js' ]
       },
       // For sample theme
       { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
       { test: /\.css/, loader: 'style-loader!css-loader' },
-      { test: /\.woff$/, loader: 'file-loader' },
-      { test: /\.ttf$/, loader: 'file-loader' },
-      { test: /\.eot$/, loader: 'file-loader' },
-      { test: /\.svg$/, loader: 'file-loader' }
+      { test: /\.(woff2?|ttf|eot|svg)$/, loader: 'file-loader' }
     ]
   },
+  resolve: {
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, 'src')
+    ],
+    extensions: ['.js', '.css']
+  },
+  devtool: 'inline-source-map',
   externals: {
     react: {
       root: 'React',
@@ -34,41 +39,23 @@ var config = {
     },
     moment: 'moment'
   },
-  plugins: []
-};
-
-if (process.env.REACT_CALENDAR_WEBPACK === 'umd_min') {
-  config.plugins = [
-    new webpack.optimize.UglifyJsPlugin()
-  ];
-  config.output.path = 'build';
-  config.output.filename = config.output.filename.replace(/\.js$/, '.min.js');
-}
-
-if (process.env.REACT_CALENDAR_WEBPACK === 'umd') {
-  config.output.path = 'build';
-}
-
-if (process.env.REACT_CALENDAR_WEBPACK === 'server') {
-  config.entry = [
-    'react-hot-loader/patch',
-    './demo.js'
-  ];
-
-  config.module.loaders = [
-    {
-      test: /\.js$/,
-      loader: 'babel',
+  performance: {
+    hints: "warning",
+    maxAssetSize: 200000,
+    maxEntrypointSize: 400000,
+    assetFilter: function(assetFilename) {
+      return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
+    }
+  },
+  devServer: {
+    proxy: { // proxy URLs to backend development server
+      '/api': 'http://localhost:3000'
     },
-    { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
-    { test: /\.css/, loader: 'style-loader!css-loader' },
-    { test: /\.(woff2?|ttf|eot|svg)$/, loader: 'file-loader' },
-  ];
-
-
-  config.plugins = [
-    new webpack.NoErrorsPlugin()
-  ];
-}
-
-module.exports = config;
+    contentBase: path.join(__dirname, 'public'),
+    compress: true,
+    historyApiFallback: true,
+    hot: true,
+    https: false,
+    noInfo: true
+  },
+};

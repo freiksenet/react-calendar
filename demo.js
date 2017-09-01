@@ -1,9 +1,5 @@
-import moment from 'moment';
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import Calendar from './src/Calendar';
-import Month from './src/Month';
 import PagingCalendar from './PagingCalendar';
 
 import { AppContainer } from 'react-hot-loader';
