@@ -1,35 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import startOfWeek from 'date-fns/start_of_week';
 import startOfMonth from 'date-fns/start_of_month';
 import parse from 'date-fns/parse';
-import format from 'date-fns/format';
-import addDays from 'date-fns/add_days';
+import format from 'date-fns/format'; // TODO: formatRelative
 import addMonths from 'date-fns/add_months';
 import differenceInMonths from 'date-fns/difference_in_months'
 // import classnames from 'classnames';
 
 import Month from './components/Month';
-import YearHeader from './YearHeader'
-
-function getFormattedWeekDays(weekDayFormat) {
-  const weekDays = [];
-  const weekStart = startOfWeek(startOfMonth(new Date()));
-
-  for (let i = 0; i < 7; i++) {
-    weekDays.push(format(addDays(weekStart, i), weekDayFormat));
-  }
-
-  return weekDays;
-}
 
 export default class Calendar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.weekDays = getFormattedWeekDays(props.weekDayFormat);
-  }
-
   static propTypes = {
     startDate: PropTypes.object.isRequired,
     endDate: PropTypes.object.isRequired,

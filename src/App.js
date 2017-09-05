@@ -5,8 +5,9 @@ import subYears from 'date-fns/sub_years'
 import addYears from 'date-fns/add_years'
 import addDays from 'date-fns/add_days';
 import getTime from 'date-fns/get_time';
+import addMonths from 'date-fns/add_months';
 
-import YearCalendar from './lib/YearCalendar';
+import Calendar from './lib/Calendar';
 
 import logo from './logo.svg';
 import './bootstrap-theme.less';
@@ -66,7 +67,7 @@ class App extends Component {
         </button>
         <div className="container-fluid">
           <div id="app">
-            <YearCalendar
+            <Calendar
               weekNumbers={false}
               startDate={this.state.date}
               focus={this.state.date}
@@ -74,6 +75,15 @@ class App extends Component {
               events={this.events}
             />
           </div>
+        </div>
+        <div className="container-fluid">
+          <Calendar
+            weekNumbers={false}
+            startDate={this.state.date}
+            focus={this.state.date}
+            endDate={addMonths(this.state.date, 1)}
+            events={this.events}
+          />
         </div>
       </div>
     );
