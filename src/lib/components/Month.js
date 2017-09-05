@@ -23,7 +23,7 @@ function renderBlockMonth(date, dayFormat) {
 
   const blockMonth = [];
 
-  for (let i = 0; i < daysInMonthWithFirstAndLastWeek; i++) {
+  for (let i = 0; i < daysInMonthWithFirstAndLastWeek + 1; i++) {
     const day = addDays(startOfMonthStartOfWeek, i);
     const dayKey = format(day, 'MM-D');
     const clsDay = cx('rc-Day', {
@@ -43,28 +43,28 @@ function renderBlockMonth(date, dayFormat) {
   return blockMonth;
 }
 
-function geFormattedWeekDays(weekDayFormat) {
+function getFormattedWeekDays(weekDayFormat) {
   const weekDays = [];
   const weekStart = startOfWeek(startOfMonth(new Date()));
 
   for (let i = 0; i < 7; i++) {
-    weekDays.push(format(addDays(weekStart, i), weekDayFormat));
+    const formattedDay = format(addDays(weekStart, i), weekDayFormat);
+
+    weekDays.push(
+      <div key={`weekDay-${formattedDay}`} className="rc-Month-weekdays-weekday">
+        {formattedDay}
+      </div>
+    );
   }
 
   return weekDays;
 }
-/**
- *  Could do this once in `YearCalendar.js`
- *  But what if you want to use Month Component?
- *  What if rendering months isn't the right approach for a year calendar?
- *  Could you render a bunch of <Day /> components?
- *  How would you break in between months?
- */
+
 class Month extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.weekDays = geFormattedWeekDays(props.weekDayFormat);
+    this.weekDays = getFormattedWeekDays(props.weekDayFormat);
   }
 
   static propTypes = {

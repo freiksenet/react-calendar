@@ -3,6 +3,8 @@ import startOfYear from 'date-fns/start_of_year';
 import endOfYear from 'date-fns/end_of_year';
 import subYears from 'date-fns/sub_years'
 import addYears from 'date-fns/add_years'
+import addDays from 'date-fns/add_days';
+import getTime from 'date-fns/get_time';
 
 import YearCalendar from './lib/YearCalendar';
 
@@ -10,17 +12,17 @@ import logo from './logo.svg';
 import './bootstrap-theme.less';
 import './App.css';
 
-// const startOfYear = moment().startOf('year');
-//
-// const yearOfEvents = Array(365).fill(0).map(() => ({
-//   date: startOfYear.add(1, 'day').clone(),
-//   classNames: ['event'],
-// }));
+const yearStart = startOfYear(new Date());
+
+const yearOfEvents = Array(365).fill(0).map((day, i) => ({
+  date: addDays(yearStart, i),
+  classNames: ['event'],
+}));
 
 const normalize = (events) => {
   const normalizedEvents = {};
   events.forEach(({ date, classNames }) => {
-    normalizedEvents[date.clone().unix()] = { classNames };
+    normalizedEvents[getTime(date)] = { classNames };
   });
 
   return normalizedEvents;
@@ -30,7 +32,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    // this.events = normalize(yearOfEvents);
+    this.events = normalize(yearOfEvents);
 
     this.state = {
       date: startOfYear(new Date()),
